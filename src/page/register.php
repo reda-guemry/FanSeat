@@ -3,12 +3,39 @@
  * Page d'inscription
  */
 
+    require_once __DIR__ . '/../classes/autentification.php';
 
+    session_start() ;
 
-include __DIR__ . '/../includes/header.php';
+    if($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $autentification = new Authentification() ;
+
+        $data = [
+            'first_name' => $_POST['first_name'] ,
+            'last_name' => $_POST['last_name'] ,
+            'email' => $_POST['email'] , 
+            'phone' => $_POST['phone'] ,
+            'role' => $_POST['role'] ,
+            'password' => $_POST['password'] ,
+            'confirm_password' => $_POST['confirm_password']
+        ];
+
+        $action = $autentification -> register($data) ;
+
+        if($action['status']) {
+            $_SESSION['success'] = $action['message'] ;
+            header('Location: logine.php') ;
+            exit; 
+        }else{
+            $error = $action['message'] ;
+        }
+    }
+    
+
+    require_once __DIR__ . '/../includes/header.php';
 ?>
 
-<section class="py-16 bg-gradient-to-r from-gray-100 to-gray-200 min-h-screen">
+<section class="py-16 bg-linear-to-r from-gray-100 to-gray-200 min-h-screen">
     <div class="container mx-auto px-4">
         <div class="max-w-2xl mx-auto">
             <!-- En-tête -->
@@ -28,6 +55,7 @@ include __DIR__ . '/../includes/header.php';
                 </div>
             <?php endif; ?>
             
+
             <!-- Formulaire -->
             <div class="bg-white rounded-xl shadow-xl p-8">
                 <form method="POST" action="">
@@ -116,9 +144,6 @@ include __DIR__ . '/../includes/header.php';
                                 <option value="organizer" <?php echo ($_POST['role'] ?? '') === 'organizer' ? 'selected' : ''; ?>>
                                     Organisateur d'Événements
                                 </option>
-                                <option value="admin" <?php echo ($_POST['role'] ?? '') === 'admin' ? 'selected' : ''; ?>>
-                                    Administrateur
-                                </option>
                             </select>
                         </div>
                         
@@ -174,8 +199,7 @@ include __DIR__ . '/../includes/header.php';
                     <!-- Bouton de soumission -->
                     <button 
                         type="submit" 
-                        class="w-full mt-6 bg-gradient-to-r from-purple-600 to-purple-700 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-purple-800 transition"
-                    >
+                        class="w-full mt-6 bg-linear-to-r from-purple-600 to-purple-700 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-purple-800 transition">
                         <i class="fas fa-user-plus mr-2"></i>
                         Créer Mon Compte
                     </button>
@@ -202,10 +226,8 @@ document.getElementById('confirm_password').addEventListener('input', function()
     const confirmPassword = this.value;
     
     if (password !== confirmPassword) {
-        this.setCustomValidity('Les mots de passe ne correspondent pas');
         this.classList.add('border-red-500');
     } else {
-        this.setCustomValidity('');
         this.classList.remove('border-red-500');
     }
 });

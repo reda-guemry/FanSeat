@@ -10,8 +10,8 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Définir les variables pour l'utilisateur connecté
 $is_logged_in = isset($_SESSION['user_id']);
-$user_name = $_SESSION['user_name'] ?? '';
-$user_role = $_SESSION['user_role'] ?? '';
+$user_name = $_SESSION['first_name'] ?? '';
+$user_role = $_SESSION['role'] ?? '';
 ?>
 
 
@@ -28,8 +28,6 @@ $user_role = $_SESSION['user_role'] ?? '';
     <title><?php echo $page_title ?? 'Sports Ticketing Platform'; ?></title>
 
     <link rel="stylesheet" href="../css/output.css">
-
-    <!-- Font Awesome pour les icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 </head>
@@ -37,11 +35,11 @@ $user_role = $_SESSION['user_role'] ?? '';
 <body class="bg-gray-50">
 
     <!-- Navigation -->
-    <nav class="bg-gradient-to-r from-purple-700 to-purple-800 shadow-lg sticky top-0 z-50">
+    <nav class="bg-linear-to-r from-purple-700 to-purple-800 shadow-lg sticky top-0 z-50">
         <div class="container mx-auto px-4">
             <div class="flex justify-between items-center py-4">
                 <!-- Logo -->
-                <a href="/sports-ticketing/public/index.php"
+                <a href="/fan-seat/src/page/accueil.php"
                     class="flex items-center space-x-2 text-white text-2xl font-bold">
                     <i class="fas fa-ticket-alt"></i>
                     <span>Fan Seat</span>
@@ -49,12 +47,10 @@ $user_role = $_SESSION['user_role'] ?? '';
 
                 <!-- Navigation Links -->
                 <div class="hidden md:flex items-center space-x-6">
-                    <a href="/sports-ticketing/public/index.php" class="nav-link text-white hover:text-purple-200">
+                    <a href="/fan-seat/src/page/accueil.php" class="nav-link text-white hover:text-purple-200">
                         <i class="fas fa-home mr-1"></i> Accueil
                     </a>
-                    <a href="/sports-ticketing/public/matches.php" class="nav-link text-white hover:text-purple-200">
-                        <i class="fas fa-futbol mr-1"></i> Matchs
-                    </a>
+                    
 
                     <?php if ($is_logged_in): ?>
                         <!-- Menu utilisateur connecté -->
@@ -86,7 +82,7 @@ $user_role = $_SESSION['user_role'] ?? '';
                                     class="block px-4 py-2 text-gray-800 hover:bg-purple-50">
                                     <i class="fas fa-user-edit mr-2"></i> Mon Profil
                                 </a>
-                                <a href="/sports-ticketing/public/logout.php"
+                                <a href="/fan-seat/src/page/logout.php"
                                     class="block px-4 py-2 text-red-600 hover:bg-red-50">
                                     <i class="fas fa-sign-out-alt mr-2"></i> Déconnexion
                                 </a>
@@ -94,10 +90,10 @@ $user_role = $_SESSION['user_role'] ?? '';
                         </div>
                     <?php else: ?>
                         <!-- Menu visiteur non connecté -->
-                        <a href="/sports-ticketing/public/login.php" class="nav-link text-white hover:text-purple-200">
+                        <a href="/fan-seat/src/page/login.php" class="nav-link text-white hover:text-purple-200">
                             <i class="fas fa-sign-in-alt mr-1"></i> Connexion
                         </a>
-                        <a href="/sports-ticketing/public/register.php"
+                        <a href="/fan-seat/src/page/register.php"
                             class="btn-primary bg-white text-purple-700 px-4 py-2 rounded-lg font-semibold hover:bg-purple-100 hover:text-purple-900 transition">
                             <i class="fas fa-user-plus mr-1"></i> Inscription
                         </a>
@@ -112,10 +108,10 @@ $user_role = $_SESSION['user_role'] ?? '';
 
             <!-- Mobile Menu -->
             <div id="mobile-menu" class="hidden md:hidden pb-4">
-                <a href="/sports-ticketing/public/index.php" class="block text-white py-2 hover:text-purple-200">
+                <a href="/fan-seat/src/page/accueil.php" class="block text-white py-2 hover:text-purple-200">
                     <i class="fas fa-home mr-2"></i> Accueil
                 </a>
-                <a href="/sports-ticketing/public/matches.php" class="block text-white py-2 hover:text-purple-200">
+                <a href="/fan-seat/src/page/matches.php" class="block text-white py-2 hover:text-purple-200">
                     <i class="fas fa-futbol mr-2"></i> Matchs
                 </a>
                 <?php if ($is_logged_in): ?>
@@ -135,14 +131,14 @@ $user_role = $_SESSION['user_role'] ?? '';
                     <a href="/sports-ticketing/user/profile.php" class="block text-white py-2 hover:text-purple-200">
                         <i class="fas fa-user-edit mr-2"></i> Mon Profil
                     </a>
-                    <a href="/sports-ticketing/public/logout.php" class="block text-red-300 py-2 hover:text-red-100">
+                    <a href="/fan-seat/src/page/logout.php" class="block text-red-300 py-2 hover:text-red-100">
                         <i class="fas fa-sign-out-alt mr-2"></i> Déconnexion
                     </a>
                 <?php else: ?>
-                    <a href="/sports-ticketing/public/login.php" class="block text-white py-2 hover:text-purple-200">
+                    <a href="/fan-seat/src/page/login.php" class="block text-white py-2 hover:text-purple-200">
                         <i class="fas fa-sign-in-alt mr-2"></i> Connexion
                     </a>
-                    <a href="/sports-ticketing/public/register.php" class="block text-white py-2 hover:text-purple-200">
+                    <a href="/fan-seat/src/page/register.php" class="block text-white py-2 hover:text-purple-200">
                         <i class="fas fa-user-plus mr-2"></i> Inscription
                     </a>
                 <?php endif; ?>
@@ -150,31 +146,6 @@ $user_role = $_SESSION['user_role'] ?? '';
         </div>
     </nav>
 
-
-    <!-- Messages Flash -->
-    <?php if (isset($_SESSION['success'])): ?>
-        <div class="container mx-auto px-4 mt-4">
-            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded">
-                <div class="flex items-center">
-                    <i class="fas fa-check-circle mr-2"></i>
-                    <p><?php echo htmlspecialchars($_SESSION['success']); ?></p>
-                </div>
-            </div>
-        </div>
-        <?php unset($_SESSION['success']); ?>
-    <?php endif; ?>
-
-    <?php if (isset($_SESSION['error'])): ?>
-        <div class="container mx-auto px-4 mt-4">
-            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded">
-                <div class="flex items-center">
-                    <i class="fas fa-exclamation-circle mr-2"></i>
-                    <p><?php echo htmlspecialchars($_SESSION['error']); ?></p>
-                </div>
-            </div>
-        </div>
-        <?php unset($_SESSION['error']); ?>
-    <?php endif; ?>
 
     <script>
         // Toggle mobile menu

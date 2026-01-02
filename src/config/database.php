@@ -21,7 +21,7 @@
         public static function getInstance(?string $dbn = null , ?string $usrname = null , ?string $password = null): Database { 
             if (self::$instance === null) {
                 self::$instance = new Database(
-                    $dbn ?? 'mysql:host=localhost;dbname=live_coding_db' , 
+                    $dbn ?? 'mysql:host=localhost;dbname=fan_seat' , 
                     $usrname ?? 'root' ,
                     $password ?? 'rootpass'
 
