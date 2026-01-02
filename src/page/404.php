@@ -38,7 +38,7 @@ include __DIR__ . '/../includes/header.php';
             
             <!-- Boutons d'action -->
             <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="/sports-ticketing/public/index.php" class="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition inline-block">
+                <a href="/sports-ticketing/public/index.php" class="bg-linear-to-r from-blue-600 to-blue-700 text-white px-8 py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition inline-block">
                     <i class="fas fa-home mr-2"></i>
                     Retour à l'Accueil
                 </a>

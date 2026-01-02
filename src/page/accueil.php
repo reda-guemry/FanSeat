@@ -104,7 +104,7 @@ include __DIR__ . '/../includes/header.php';
                 <?php foreach ($matches as $match): ?>
                     <div class="card-hover bg-white rounded-lg shadow-md overflow-hidden">
                         <!-- Badge de statut -->
-                        <div class="bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 text-center">
+                        <div class="bg-linear-to-r from-green-500 to-green-600 text-white px-4 py-2 text-center">
                             <i class="fas fa-check-circle mr-2"></i>
                             Places Disponibles
                         </div>
@@ -157,7 +157,7 @@ include __DIR__ . '/../includes/header.php';
                             <!-- Bouton d'action -->
                             <div class="mt-6">
                                 <a href="/sports-ticketing/public/match-details.php?id=<?php echo $match['id']; ?>" 
-                                   class="block w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white text-center py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition">
+                                   class="block w-full bg-linear-to-r from-blue-600 to-blue-700 text-white text-center py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition">
                                     <i class="fas fa-info-circle mr-2"></i>
                                     Voir les Détails
                                 </a>
@@ -171,7 +171,7 @@ include __DIR__ . '/../includes/header.php';
 </section>
 
 <!-- Call to Action -->
-<section class="py-16 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+<section class="py-16 bg-linear-to-r from-blue-600 to-blue-800 text-white">
     <div class="container mx-auto px-4 text-center">
         <h2 class="text-4xl font-bold mb-6">Prêt à Réserver Vos Billets?</h2>
         <p class="text-xl mb-8 max-w-2xl mx-auto">

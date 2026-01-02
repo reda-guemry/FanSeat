@@ -23,7 +23,7 @@ include __DIR__ . '/../includes/header.php';
                 <!-- Carte du match -->
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-6">
                     <!-- En-tête -->
-                    <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-6">
+                    <div class="bg-linear-to-r from-blue-600 to-blue-800 text-white p-6">
                         <h1 class="text-3xl font-bold text-center mb-4">
                             <?php echo htmlspecialchars($match['team1_name']); ?> 
                             <span class="mx-4">VS</span>
@@ -211,7 +211,7 @@ include __DIR__ . '/../includes/header.php';
                                         </p>
                                         <?php if ($category['available_seats'] > 0): ?>
                                             <a href="/sports-ticketing/user/buy-ticket.php?match_id=<?php echo $match_id; ?>&category_id=<?php echo $category['id']; ?>" 
-                                               class="block w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white text-center py-2 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition">
+                                               class="block w-full bg-linear-to-r from-blue-600 to-blue-700 text-white text-center py-2 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition">
                                                 <i class="fas fa-shopping-cart mr-2"></i>
                                                 Réserver
                                             </a>
