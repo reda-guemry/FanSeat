@@ -1,5 +1,9 @@
 <?php
 
+include __DIR__ . '/../classes/user.php';
+include __DIR__ . '/../classes/userdata.php';
+include __DIR__ . '/../classes/acheteur';
+
 
 
 

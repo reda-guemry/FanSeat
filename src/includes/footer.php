@@ -1,5 +1,5 @@
 <!-- Footer -->
-<footer class="bg-gradient-to-t from-purple-700 to-purple-800 text-white mt-16">
+<footer class="bg-linear-to-r from-purple-700 to-purple-800 text-white mt-16">
     <div class="container mx-auto px-4 py-12">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
             <!-- À propos -->
