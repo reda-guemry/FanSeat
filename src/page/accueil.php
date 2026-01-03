@@ -4,6 +4,9 @@ include __DIR__ . '/../classes/user.php';
 include __DIR__ . '/../classes/userdata.php';
 include __DIR__ . '/../classes/acheteur';
 
+$datauser = new Userdata();
+
+$user = $datauser->findById($_SESSION['user_id']);
 
 
 
@@ -20,10 +23,11 @@ include __DIR__ . '/../includes/header.php';
             Bienvenue sur Sports Ticketing
         </h1>
         <p class="text-xl mb-8 max-w-2xl mx-auto">
-            Réservez vos billets pour les plus grands matchs de football au Maroc. 
+            Réservez vos billets pour les plus grands matchs de football au Maroc.
             Simple, rapide et sécurisé.
         </p>
-        <a href="#matches" class="bg-white text-blue-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-50 transition inline-block">
+        <a href="#matches"
+            class="bg-white text-blue-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-50 transition inline-block">
             <i class="fas fa-search mr-2"></i>
             Découvrir les Matchs
         </a>
@@ -65,29 +69,26 @@ include __DIR__ . '/../includes/header.php';
             <i class="fas fa-calendar-alt mr-3"></i>
             Matchs à Venir
         </h2>
-        
+
         <!-- Recherche et filtres -->
         <div class="max-w-4xl mx-auto mb-8">
             <form method="GET" action="" class="flex flex-col md:flex-row gap-4">
                 <div class="flex-1">
-                    <input 
-                        type="text" 
-                        name="search" 
-                        placeholder="Rechercher un match, équipe ou lieu..."
+                    <input type="text" name="search" placeholder="Rechercher un match, équipe ou lieu..."
                         value="<?php echo htmlspecialchars($search_query); ?>"
-                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div class="md:w-64">
-                    <select 
-                        name="location" 
-                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
+                    <select name="location"
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <option value="">Tous les lieux</option>
-                        <option value="Casablanca" <?php echo $location_filter === 'Casablanca' ? 'selected' : ''; ?>>Casablanca</option>
+                        <option value="Casablanca" <?php echo $location_filter === 'Casablanca' ? 'selected' : ''; ?>>
+                            Casablanca</option>
                         <option value="Rabat" <?php echo $location_filter === 'Rabat' ? 'selected' : ''; ?>>Rabat</option>
-                        <option value="Marrakech" <?php echo $location_filter === 'Marrakech' ? 'selected' : ''; ?>>Marrakech</option>
-                        <option value="Agadir" <?php echo $location_filter === 'Agadir' ? 'selected' : ''; ?>>Agadir</option>
+                        <option value="Marrakech" <?php echo $location_filter === 'Marrakech' ? 'selected' : ''; ?>>
+                            Marrakech</option>
+                        <option value="Agadir" <?php echo $location_filter === 'Agadir' ? 'selected' : ''; ?>>Agadir
+                        </option>
                     </select>
                 </div>
                 <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
@@ -96,7 +97,7 @@ include __DIR__ . '/../includes/header.php';
                 </button>
             </form>
         </div>
-        
+
         <!-- Liste des matchs -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <?php if (empty($matches)): ?>
@@ -112,36 +113,36 @@ include __DIR__ . '/../includes/header.php';
                             <i class="fas fa-check-circle mr-2"></i>
                             Places Disponibles
                         </div>
-                        
+
                         <!-- Contenu de la carte -->
                         <div class="p-6">
                             <!-- Équipes -->
                             <div class="flex justify-between items-center mb-4">
                                 <div class="text-center flex-1">
                                     <?php if ($match['team1_logo']): ?>
-                                        <img src="/sports-ticketing/assets/uploads/<?php echo htmlspecialchars($match['team1_logo']); ?>" 
-                                             alt="<?php echo htmlspecialchars($match['team1_name']); ?>"
-                                             class="w-16 h-16 object-contain mx-auto mb-2">
+                                        <img src="/sports-ticketing/assets/uploads/<?php echo htmlspecialchars($match['team1_logo']); ?>"
+                                            alt="<?php echo htmlspecialchars($match['team1_name']); ?>"
+                                            class="w-16 h-16 object-contain mx-auto mb-2">
                                     <?php else: ?>
                                         <i class="fas fa-shield-alt text-4xl text-blue-600 mb-2"></i>
                                     <?php endif; ?>
                                     <h4 class="font-bold text-sm"><?php echo htmlspecialchars($match['team1_name']); ?></h4>
                                 </div>
-                                
+
                                 <div class="text-2xl font-bold text-gray-400 mx-4">VS</div>
-                                
+
                                 <div class="text-center flex-1">
                                     <?php if ($match['team2_logo']): ?>
-                                        <img src="/sports-ticketing/assets/uploads/<?php echo htmlspecialchars($match['team2_logo']); ?>" 
-                                             alt="<?php echo htmlspecialchars($match['team2_name']); ?>"
-                                             class="w-16 h-16 object-contain mx-auto mb-2">
+                                        <img src="/sports-ticketing/assets/uploads/<?php echo htmlspecialchars($match['team2_logo']); ?>"
+                                            alt="<?php echo htmlspecialchars($match['team2_name']); ?>"
+                                            class="w-16 h-16 object-contain mx-auto mb-2">
                                     <?php else: ?>
                                         <i class="fas fa-shield-alt text-4xl text-red-600 mb-2"></i>
                                     <?php endif; ?>
                                     <h4 class="font-bold text-sm"><?php echo htmlspecialchars($match['team2_name']); ?></h4>
                                 </div>
                             </div>
-                            
+
                             <!-- Détails du match -->
                             <div class="border-t border-gray-200 pt-4 space-y-2">
                                 <div class="flex items-center text-gray-600">
@@ -157,11 +158,11 @@ include __DIR__ . '/../includes/header.php';
                                     <span><?php echo htmlspecialchars($match['location']); ?></span>
                                 </div>
                             </div>
-                            
+
                             <!-- Bouton d'action -->
                             <div class="mt-6">
-                                <a href="/sports-ticketing/public/match-details.php?id=<?php echo $match['id']; ?>" 
-                                   class="block w-full bg-linear-to-r from-blue-600 to-blue-700 text-white text-center py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition">
+                                <a href="/sports-ticketing/public/match-details.php?id=<?php echo $match['id']; ?>"
+                                    class="block w-full bg-linear-to-r from-blue-600 to-blue-700 text-white text-center py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition">
                                     <i class="fas fa-info-circle mr-2"></i>
                                     Voir les Détails
                                 </a>
@@ -182,7 +183,8 @@ include __DIR__ . '/../includes/header.php';
             Inscrivez-vous maintenant et profitez d'une expérience de billetterie simple et sécurisée.
         </p>
         <?php if (!isset($_SESSION['user_id'])): ?>
-            <a href="/sports-ticketing/public/register.php" class="bg-white text-blue-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-50 transition inline-block">
+            <a href="/sports-ticketing/public/register.php"
+                class="bg-white text-blue-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-50 transition inline-block">
                 <i class="fas fa-user-plus mr-2"></i>
                 Créer un Compte
             </a>
