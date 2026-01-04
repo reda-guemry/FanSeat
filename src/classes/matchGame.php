@@ -37,7 +37,7 @@ class MatchGame
         $this->address = $data['address'] ?? null;
         $this->total_places = $data['total_places'];
         $this->categories = $data['categories'];
-        $this->status = 'pending';
+        $this->status = $data['categories'] ?? 'pending';
     }
 
 
@@ -173,6 +173,20 @@ class MatchGame
     }
 
 
+    public static function getAllPending() {
+        $db = Database::getInstance() -> getConnect() ;
+
+        $select = $db -> query('SELECT * FROM matches WHERE  status = "pending"') ;
+        $rows = $select -> fetchAll() ; 
+        
+
+        $matches = [] ;
+        
+        foreach($rows as $row) {
+            $matches[] = new MatchGame($row) ;
+        }
+        return $matches ; 
+    }
 
 
 }
