@@ -1,12 +1,6 @@
 <?php
 
-include __DIR__ . '/../classes/user.php';
-include __DIR__ . '/../classes/userdata.php';
-include __DIR__ . '/../classes/acheteur';
-
-$datauser = new Userdata();
-
-$user = $datauser->findById($_SESSION['user_id']);
+include __DIR__ . '/../config/requirefichier.php';
 
 
 
@@ -40,7 +34,7 @@ include __DIR__ . '/../includes/header.php';
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div class="text-center p-6 bg-linear-to-r from-blue-50 to-blue-100 rounded-lg">
                 <i class="fas fa-futbol text-4xl text-blue-600 mb-4"></i>
-                <h3 class="text-3xl font-bold text-gray-800"><?php echo count($matches); ?>+</h3>
+                <h3 class="text-3xl font-bold text-gray-800"><?php //echo count($matches); ?>+</h3>
                 <p class="text-gray-600">Matchs Disponibles</p>
             </div>
             <div class="text-center p-6 bg-linear-to-r from-green-50 to-green-100 rounded-lg">

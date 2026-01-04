@@ -2,10 +2,9 @@
 /*
  * Page de connexion
 */
-
     require_once __DIR__ . '/../classes/autentification.php';
 
-    session_start() ; 
+    $error = '' ;
 
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
         

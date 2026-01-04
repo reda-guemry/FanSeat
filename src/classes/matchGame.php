@@ -1,0 +1,178 @@
+<?php
+include __DIR__ . '/../config/requirefichier.php';
+
+
+
+class MatchGame
+{
+    private $id;
+    private $organizer_id;
+    private $team1_name;
+    private $team1_short;
+    private $team1_logo;
+    private $team2_name;
+    private $team2_short;
+    private $team2_logo;
+    private $match_datetime;
+    private $duration;
+    private $stadium_name;
+    private $city;
+    private $address;
+    private $total_places;
+    private $status;
+    private $categories;
+    public function __construct(array $data)
+    {
+        $this->organizer_id = $data['organizer_id'];
+        $this->team1_name = $data['team1_name'];
+        $this->team1_short = $data['team1_short'] ?? null;
+        $this->team1_logo = $data['team1_logo'];
+        $this->team2_name = $data['team2_name'];
+        $this->team2_short = $data['team2_short'] ?? null;
+        $this->team2_logo = $data['team2_logo'];
+        $this->match_datetime = $data['match_datetime'];
+        $this->duration = $data['duration'];
+        $this->stadium_name = $data['stadium_name'];
+        $this->city = $data['city'];
+        $this->address = $data['address'] ?? null;
+        $this->total_places = $data['total_places'];
+        $this->categories = $data['categories'];
+        $this->status = 'pending';
+    }
+
+
+    public function approve(): void
+    {
+        $this->status = 'approved';
+    }
+
+    public function reject(): void
+    {
+        $this->status = 'rejected';
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->status === 'approved';
+    }
+
+
+    private function saveLogo()
+    {
+
+        $saveImgFile = function ($file) {
+            if ($file['error'] === 0) {
+                $filename = uniqid() . '_' . $file['name'];
+                $pathfile = UPLOAD_DIR . $filename;
+                if (move_uploaded_file($file['tmp_name'], $pathfile)) {
+                    return $filename;
+                }
+            }
+            return null;
+        };
+
+        $this->team1_logo = $saveImgFile($this->team1_logo);
+        $this->team2_logo = $saveImgFile($this->team2_logo);
+
+        if (!$this->team1_logo || !$this->team2_logo) {
+            return [
+                'status' => false,
+                'message' => 'Échec du téléchargement des logos. Vérifiez les fichiers et les permissions du dossier.'
+            ];
+        }
+        return ['status' => true];
+    }
+
+
+    public function insertmatch()
+    {
+        $logoResult = $this->saveLogo();
+
+        if (!$logoResult['status'])
+            return $logoResult;
+
+        try {
+            $connect = Database::getInstance()->getconnect();
+            $sql = 'INSERT INTO matches (organizer_id,team1_name,team1_short,team1_logo,team2_name,team2_short,team2_logo,match_datetime,duration,stadium_name,city,address,total_places,status) VALUES (
+                                    :organizer_id,
+                                    :team1_name,
+                                    :team1_short,
+                                    :team1_logo,
+                                    :team2_name,
+                                    :team2_short,
+                                    :team2_logo,
+                                    :match_datetime,
+                                    :duration,
+                                    :stadium_name,
+                                    :city,
+                                    :address,
+                                    :total_places,
+                                    :status)';
+            $insertnewmacth = $connect->prepare($sql);
+
+            $insertnewmacth->execute([
+                ':organizer_id' => $this->organizer_id,
+                ':team1_name' => $this->team1_name,
+                ':team1_short' => $this->team1_short,
+                ':team1_logo' => $this->team1_logo,
+                ':team2_name' => $this->team2_name,
+                ':team2_short' => $this->team2_short,
+                ':team2_logo' => $this->team2_logo,
+                ':match_datetime' => $this->match_datetime,
+                ':duration' => $this->duration,
+                ':stadium_name' => $this->stadium_name,
+                ':city' => $this->city,
+                ':address' => $this->address,
+                ':total_places' => $this->total_places,
+                ':status' => $this->status
+            ]);
+
+            $this->id = $connect->lastInsertId();
+
+            $catResult = $this->insertCategories();
+            if (!$catResult['status'])
+                return $catResult;
+
+            return [
+                'status' => true,
+                'message' => 'Match créé avec succès'
+            ];
+        } catch (PDOException $e) {
+            return [
+                'status' => false,
+                'message' => 'Erreur base de données : ' . $e->getMessage()
+            ];
+        }
+    }
+
+    private function insertCategories()
+    {
+        try {
+            $db = Database::getInstance()->getconnect();
+            $sql = "INSERT INTO match_categories (match_id, name, price, total_places, description)
+            VALUES (:match_id, :name, :price, :total_places, :description)";
+            $stmt = $db->prepare($sql);
+
+            foreach ($this->categories as $cat) {
+                $stmt->execute([
+                    ':match_id' => $this->id,
+                    ':name' => $cat['name'],
+                    ':price' => $cat['price'],
+                    ':total_places' => $cat['total_places'],
+                    ':description' => $cat['description'] ?? null
+                ]);
+            }
+
+            return ['status' => true];
+        } catch (PDOException $e) {
+            return [
+                'status' => false,
+                'message' => 'Erreur lors de l\'insertion des catégories : ' . $e->getMessage()
+            ];
+        }
+    }
+
+
+
+
+}

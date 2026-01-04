@@ -27,7 +27,7 @@ $user_role = $_SESSION['role'] ?? '';
 
     <title><?php echo $page_title ?? 'Sports Ticketing Platform'; ?></title>
 
-    <link rel="stylesheet" href="../css/output.css">
+    <link rel="stylesheet" href="/fan-seat/src/css/output.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 </head>

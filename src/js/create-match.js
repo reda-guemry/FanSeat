@@ -257,18 +257,7 @@ function updatePlacesSummary() {
   );
 }
 
-// Form submission
-document
-  .getElementById("createMatchForm")
-  .addEventListener("submit", function (e) {
-    e.preventDefault();
-    if (document.getElementById("termsAccept").checked) {
-      document.getElementById("successModal").classList.remove("hidden");
-      document.getElementById("successModal").classList.add("flex");
-    } else {
-      alert("Veuillez accepter les conditions générales.");
-    }
-  });
+
 
 // Initialize
 updateSteps();
