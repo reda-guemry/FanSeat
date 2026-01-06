@@ -5,7 +5,8 @@
 
     require_once __DIR__ . '/../classes/autentification.php';
 
-    session_start() ;
+    $error = null ;
+
 
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
         $autentification = new Authentification() ;
@@ -209,7 +210,7 @@
                 <div class="mt-6 text-center">
                     <p class="text-gray-600">
                         Vous avez déjà un compte?
-                        <a href="/sports-ticketing/public/login.php" class="text-purple-600 hover:text-purple-700 font-semibold">
+                        <a href="/fan-seat/src/page/logine.php" class="text-purple-600 hover:text-purple-700 font-semibold">
                             Connectez-vous
                         </a>
                     </p>
@@ -220,7 +221,7 @@
 </section>
 
 <script>
-// Validation en temps réel du mot de passe
+
 document.getElementById('confirm_password').addEventListener('input', function() {
     const password = document.getElementById('password').value;
     const confirmPassword = this.value;

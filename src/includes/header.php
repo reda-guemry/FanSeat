@@ -59,7 +59,7 @@ $user_role = $_SESSION['role'] ?? '';
                                 <i class="fas fa-tachometer-alt mr-1"></i> Dashboard Admin
                             </a>
                         <?php elseif ($user_role === 'organizer'): ?>
-                            <a href="/sports-ticketing/organizer/dashboard.php"
+                            <a href="/fan-seat/src/page/organizateur/dhasbordorganizateur.php"
                                 class="nav-link text-white hover:text-purple-200">
                                 <i class="fas fa-calendar-plus mr-1"></i> Dashboard Organisateur
                             </a>

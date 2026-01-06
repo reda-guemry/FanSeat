@@ -14,8 +14,19 @@
         
         if($reponse['status']){
             $_SESSION['success'] = 'Compte créé avec succès!';
-            header('Location: accueil.php');
-            exit();
+            if($_SESSION['role'] === 'admin') {
+                header('Location: admin/dhasbordadmin.php');
+                exit();
+            }
+            if($_SESSION['role'] === 'organizer') { 
+                header('Location: ../organizateur/dhasbordorganizateur.php');
+                exit();
+            }
+            if($_SESSION['role'] === 'user') { 
+                header('Location: accueil.php');
+                exit();
+            }
+
         }else {
             $error = $reponse['message'] ;
         }

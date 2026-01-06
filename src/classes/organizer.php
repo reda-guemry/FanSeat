@@ -4,22 +4,24 @@ include __DIR__ . '/../config/requirefichier.php';
 
 class Organizer extends User
 {
-    public function __construct($id)
+    public const ROLE = 'organizer';
+
+    public function __construct($data)
     {
-        $this->user_id = $id;
-        $connect = Database::getInstance()->getconnect();
-
-        $sql = 'SELECT * FROM users WHERE id = :user_id ';
-
-        $data = $connect->prepare($sql);
-        $data->execute([':user_id' => $id]);
-        $data = $data->fetch();
-
-        $this->setUserData($data);
+        if (is_array($data)) {
+            $this->setUserData($data);
+        } else {
+            $connect = Database::getInstance()->getconnect();
+            $stmt = $connect->prepare('SELECT * FROM users WHERE id = :user_id');
+            $stmt->execute([':user_id' => $data]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $this->setUserData($row);
+        }
     }
 
     private function setUserData(array $data)
     {
+        $this -> user_id = $data['id'] ;
         $this->first_name = $data['first_name'];
         $this->last_name = $data['last_name'];
         $this->email = $data['email'];
@@ -62,10 +64,21 @@ class Organizer extends User
         return $this->role;
     }
 
+    public static function getRoleGlobale(): string
+    {
+        return self::ROLE;
+    }
+
     public function getPhone(): string
     {
         return $this->phone;
     }
+
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
 
     /* SETTERS */
 
@@ -99,6 +112,19 @@ class Organizer extends User
     {
         $data['organizer_id'] = $this->user_id;
         return new MatchGame($data);
+    }
+
+    public function getCountMatch() {
+        $connect = Database::getInstance() ->getconnect();
+        $query = $connect -> prepare('SELECT COUNT(*) FROM matches WHERE organizer_id = :id');
+        $query -> execute([':id' => $this->getUserId()]);
+        return $query -> fetchColumn();   
+    }
+    public function getCountMatchPending() {
+        $connect = Database::getInstance() ->getconnect();
+        $query = $connect -> prepare('SELECT COUNT(*) FROM matches WHERE organizer_id = :id AND status = "pending"');
+        $query -> execute([':id' => $this->getUserId()]);
+        return $query -> fetchColumn();   
     }
 
 

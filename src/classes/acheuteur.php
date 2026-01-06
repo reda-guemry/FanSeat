@@ -5,27 +5,29 @@ include __DIR__ . '/../config/requirefichier.php';
 
 class Acheuteur extends User
 {
-    public function __construct($id)
+    public const ROLE = 'user';
+
+    public function __construct($data)
     {
-        $this->user_id = $id;
-        $connect = Database::getInstance()->getconnect();
-
-        $sql = 'SELECT * FROM users WHERE id = :user_id ';
-
-        $data = $connect->prepare($sql);
-        $data->execute([':user_id' => $id]);
-        $data = $data->fetch();
-
-        $this -> setUserData($data) ; 
+        if (is_array($data)) {
+            $this->setUserData($data);
+        } else {
+            $connect = Database::getInstance()->getconnect();
+            $stmt = $connect->prepare('SELECT * FROM users WHERE id = :user_id');
+            $stmt->execute([':user_id' => $data]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $this->setUserData($row);
+        }
     }
 
     private function setUserData(array $data)
     {
+        $this -> user_id = $data['id'] ;
         $this->first_name = $data['first_name'];
         $this->last_name = $data['last_name'];
         $this->email = $data['email'];
         $this->password = $data['password'];
-        $this->role = $data['role'];
+        $this->role = self::getRoleGlobale();
         $this->phone = $data['phone'];
         $this->status = $data['status'];
 
@@ -56,6 +58,14 @@ class Acheuteur extends User
     public function getEmail(): string
     {
         return $this->email;
+    }
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    public static function getRoleGlobale(): string {
+        return self::ROLE;
     }
 
     public function getRole(): string

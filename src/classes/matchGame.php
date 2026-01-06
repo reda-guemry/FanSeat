@@ -23,6 +23,7 @@ class MatchGame
     private $categories;
     public function __construct(array $data)
     {
+        $this->id = $data['id'] ?? null;
         $this->organizer_id = $data['organizer_id'];
         $this->team1_name = $data['team1_name'];
         $this->team1_short = $data['team1_short'] ?? null;
@@ -36,7 +37,7 @@ class MatchGame
         $this->city = $data['city'];
         $this->address = $data['address'] ?? null;
         $this->total_places = $data['total_places'];
-        $this->categories = $data['categories'];
+        $this->categories = $data['categories'] ?? null;
         $this->status = $data['categories'] ?? 'pending';
     }
 
@@ -44,16 +45,54 @@ class MatchGame
     public function approve(): void
     {
         $this->status = 'approved';
+        $this->updateStatus();
     }
 
     public function reject(): void
     {
         $this->status = 'rejected';
+        $this->updateStatus();
     }
 
-    public function isPublished(): bool
+    public function isPublished()
     {
-        return $this->status === 'approved';
+        $this->status === 'approved';
+        $this->updateStatus();
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function getTeam1Name()
+    {
+        return $this->team1_name;
+    }
+
+    public function getTeam2Name()
+    {
+        return $this->team2_name;
+    }
+
+    public function getMatchDatetime()
+    {
+        return $this->match_datetime;
+    }
+
+    public function getStadiumName()
+    {
+        return $this->stadium_name;
+    }
+
+    public function getCity()
+    {
+        return $this->city;
     }
 
 
@@ -173,20 +212,37 @@ class MatchGame
     }
 
 
-    public static function getAllPending() {
-        $db = Database::getInstance() -> getConnect() ;
+    public static function getMatchesByStatus($statu)
+    {
+        $db = Database::getInstance()->getConnect();
 
-        $select = $db -> query('SELECT * FROM matches WHERE  status = "pending"') ;
-        $rows = $select -> fetchAll() ; 
-        
+        $select = $db->prepare('SELECT * FROM matches WHERE  status = :statu ');
+        $select -> execute([':statu' => $statu]) ;
+        $rows = $select->fetchAll();
 
-        $matches = [] ;
-        
-        foreach($rows as $row) {
-            $matches[] = new MatchGame($row) ;
+
+        $matches = [];
+
+        foreach ($rows as $row) {
+            $matches[] = new MatchGame($row);
         }
-        return $matches ; 
+        return $matches;
     }
+
+    private function updateStatus()
+    {
+        $connect = Database::getInstance()->getconnect();
+
+        $sql = 'UPDATE matches SET status = :status WHERE id = :id';
+
+        $updateMatche = $connect->prepare($sql);
+        $updateMatche->execute([
+            ':status' => $this->getStatus(),
+            ':id' => $this->getId()
+        ]);
+
+    }
+
 
 
 }

@@ -13,6 +13,8 @@ require_once __DIR__ . '/../classes/organizer.php';
 require_once __DIR__ . '/../classes/matchGame.php';
 require_once __DIR__ . '/../classes/acheuteur.php';
 require_once __DIR__ . '/../classes/autentification.php';
+require_once __DIR__ . '/../classes/category.php';
+
 
 
 
