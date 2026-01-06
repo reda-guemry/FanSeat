@@ -16,34 +16,6 @@ $pending_matches = MatchGame::getMatchesByStatus('pending');
 
 $published_matches = MatchGame::getMatchesByStatus('approved');
 
-// require_once __DIR__ . '/check-auth-organizer.php';
-// $page_title = 'Dashboard Organisateur - Sports Ticketing';
-
-// require_once __DIR__ . '/../config/database.php';
-// require_once __DIR__ . '/../classes/Database.php';
-// require_once __DIR__ . '/../classes/BaseModel.php';
-// require_once __DIR__ . '/../classes/Match.php';
-// require_once __DIR__ . '/../classes/Category.php';
-// require_once __DIR__ . '/../classes/Statistics.php';
-// require_once __DIR__ . '/../classes/Comment.php';
-
-// // Récupérer les données
-// $matchModel = new Match();
-// $statistics = new Statistics();
-// $commentModel = new Comment();
-
-// $organizer_id = $_SESSION['user_id'];
-
-// // Statistiques de l'organisateur
-// $stats = $statistics->getOrganizerStats($organizer_id);
-
-// // Matchs de l'organisateur
-// $my_matches = $matchModel->getByOrganizer($organizer_id);
-
-// // Séparer par statut
-// $pending_matches = array_filter($my_matches, fn($m) => $m['status'] === 'pending');
-// $published_matches = array_filter($my_matches, fn($m) => $m['status'] === 'published');
-// $rejected_matches = array_filter($my_matches, fn($m) => $m['status'] === 'rejected');
 
 include __DIR__ . '/../../includes/header.php';
 ?>
@@ -365,8 +337,7 @@ include __DIR__ . '/../../includes/header.php';
                         <div class="space-y-4">
                             <?php foreach ($published_matches as $match): ?>
                                 <?php
-                                $categoryModel = new Category();
-                                $categories = $categoryModel->getByMatch($match -> getId());
+                                $categories = Category::getByMatch($match -> getId());
                                 $minPrice = !empty($categories) ? min(array_column($categories, 'price')) : 0;
                                 ?>
                                 <div
@@ -397,7 +368,7 @@ include __DIR__ . '/../../includes/header.php';
                                         <span class="font-bold text-green-700">
                                             À partir de <?php echo number_format($minPrice, 0); ?> MAD
                                         </span>
-                                        <a href="/sports-ticketing/public/match-details.php?id=<?php echo $match -> getId(); ?>"
+                                        <a href="/fan-seat/src/page/match-details.php?id=<?php echo $match -> getId(); ?>"
                                             class="text-purple-600 hover:text-purple-700 font-semibold text-sm">
                                             Voir <i class="fas fa-arrow-right ml-1"></i>
                                         </a>

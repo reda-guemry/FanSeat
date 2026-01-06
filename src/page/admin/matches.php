@@ -129,7 +129,7 @@ include __DIR__ . '/../includes/header.php';
                 <?php foreach ($matches as $index => $match): ?>
                     <?php 
                         $organizer = $userModel->getById($match['organizer_id']);
-                        $categories = $categoryModel->getByMatch($match['id']);
+                        $categories = $categoryModel->getByMatch(id: $match['id']);
                     ?>
                     <div class="match-card bg-white rounded-2xl shadow-lg overflow-hidden animate-scale-in" style="animation-delay: <?php echo $index * 0.1; ?>s">
                         <!-- Header avec statut -->

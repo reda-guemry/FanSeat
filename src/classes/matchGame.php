@@ -38,7 +38,7 @@ class MatchGame
         $this->address = $data['address'] ?? null;
         $this->total_places = $data['total_places'];
         $this->categories = $data['categories'] ?? null;
-        $this->status = $data['categories'] ?? 'pending';
+        $this->status = $data['status'] ?? 'pending';
     }
 
 
@@ -60,41 +60,91 @@ class MatchGame
         $this->updateStatus();
     }
 
-    public function getId()
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getStatus()
+    public function getOrganizerId(): int
     {
-        return $this->status;
+        return $this->organizer_id;
     }
 
-    public function getTeam1Name()
+    public function getTeam1Name(): string
     {
         return $this->team1_name;
     }
 
-    public function getTeam2Name()
+    public function getTeam1Short(): ?string
+    {
+        return $this->team1_short;
+    }
+
+    public function getTeam1Logo(): string
+    {
+        return $this->team1_logo;
+    }
+
+    public function getTeam2Name(): string
     {
         return $this->team2_name;
     }
 
-    public function getMatchDatetime()
+    public function getTeam2Short(): ?string
+    {
+        return $this->team2_short;
+    }
+
+    public function getTeam2Logo(): string
+    {
+        return $this->team2_logo;
+    }
+
+    public function getMatchDatetime(): string
     {
         return $this->match_datetime;
     }
 
-    public function getStadiumName()
+    public function getFormattedMatchDatetime(): string
+    {
+        return date('d/m/Y H:i', strtotime($this->match_datetime));
+    }
+
+    public function getDuration(): int
+    {
+        return $this->duration;
+    }
+
+    public function getStadiumName(): string
     {
         return $this->stadium_name;
     }
 
-    public function getCity()
+    public function getCity(): string
     {
         return $this->city;
     }
 
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function getTotalPlaces(): int
+    {
+        return $this->total_places;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function getCategories(): ?array
+    {
+        return $this->categories;
+    }
 
     private function saveLogo()
     {
@@ -217,7 +267,7 @@ class MatchGame
         $db = Database::getInstance()->getConnect();
 
         $select = $db->prepare('SELECT * FROM matches WHERE  status = :statu ');
-        $select -> execute([':statu' => $statu]) ;
+        $select->execute([':statu' => $statu]);
         $rows = $select->fetchAll();
 
 
@@ -227,6 +277,15 @@ class MatchGame
             $matches[] = new MatchGame($row);
         }
         return $matches;
+    }
+
+    public static function getMatchesById($id) {
+        $db = Database::getInstance()->getconnect();
+        $select = $db->prepare('SELECT * FROM matches WHERE id = :id');
+        $select->execute([':id'=> $id]);
+        $row = $select->fetch();
+        $matche = new MatchGame($row);
+        return $matche;
     }
 
     private function updateStatus()
@@ -242,6 +301,11 @@ class MatchGame
         ]);
 
     }
+
+    public function getcategoriebyId(){
+        $this -> categories = Category::getByMatch($this -> getId()) ; 
+    }
+
 
 
 

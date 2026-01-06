@@ -1,6 +1,14 @@
 <?php
 
-include __DIR__ . '/../config/requirefichier.php';
+require_once __DIR__ . '/../config/requirefichier.php';
+
+
+$page_title = ' Dashboard Organisateur - Sports Ticketing';
+
+$user = Authentification::checkrole($_SESSION['role']);
+
+
+$matches = MatchGame::getMatchesByStatus('approved');
 
 
 
@@ -34,7 +42,7 @@ include __DIR__ . '/../includes/header.php';
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div class="text-center p-6 bg-linear-to-r from-blue-50 to-blue-100 rounded-lg">
                 <i class="fas fa-futbol text-4xl text-blue-600 mb-4"></i>
-                <h3 class="text-3xl font-bold text-gray-800"><?php //echo count($matches); ?>+</h3>
+                <h3 class="text-3xl font-bold text-gray-800"><?php echo count($matches); ?>+</h3>
                 <p class="text-gray-600">Matchs Disponibles</p>
             </div>
             <div class="text-center p-6 bg-linear-to-r from-green-50 to-green-100 rounded-lg">
@@ -113,27 +121,31 @@ include __DIR__ . '/../includes/header.php';
                             <!-- Équipes -->
                             <div class="flex justify-between items-center mb-4">
                                 <div class="text-center flex-1">
-                                    <?php if ($match['team1_logo']): ?>
-                                        <img src="/sports-ticketing/assets/uploads/<?php echo htmlspecialchars($match['team1_logo']); ?>"
-                                            alt="<?php echo htmlspecialchars($match['team1_name']); ?>"
+                                    <?php if ($match->getTeam1Logo()): ?>
+                                        <img src="/fan-seat/src/img/teamlogo/<?php echo htmlspecialchars($match->getTeam1Logo()); ?>"
+                                            alt="<?php echo htmlspecialchars($match->getTeam1Name()); ?>"
                                             class="w-16 h-16 object-contain mx-auto mb-2">
                                     <?php else: ?>
                                         <i class="fas fa-shield-alt text-4xl text-blue-600 mb-2"></i>
                                     <?php endif; ?>
-                                    <h4 class="font-bold text-sm"><?php echo htmlspecialchars($match['team1_name']); ?></h4>
+                                    <h4 class="font-bold text-sm">
+                                        <?php echo htmlspecialchars($match->getTeam1Name()); ?>
+                                    </h4>
                                 </div>
 
                                 <div class="text-2xl font-bold text-gray-400 mx-4">VS</div>
 
                                 <div class="text-center flex-1">
-                                    <?php if ($match['team2_logo']): ?>
-                                        <img src="/sports-ticketing/assets/uploads/<?php echo htmlspecialchars($match['team2_logo']); ?>"
-                                            alt="<?php echo htmlspecialchars($match['team2_name']); ?>"
+                                    <?php if ($match->getTeam2Logo()): ?>
+                                        <img src="/fan-seat/src/img/teamlogo/<?php echo htmlspecialchars($match->getTeam2Logo()); ?>"
+                                            alt="<?php echo htmlspecialchars($match->getTeam2Name()); ?>"
                                             class="w-16 h-16 object-contain mx-auto mb-2">
                                     <?php else: ?>
                                         <i class="fas fa-shield-alt text-4xl text-red-600 mb-2"></i>
                                     <?php endif; ?>
-                                    <h4 class="font-bold text-sm"><?php echo htmlspecialchars($match['team2_name']); ?></h4>
+                                    <h4 class="font-bold text-sm">
+                                        <?php echo htmlspecialchars($match->getTeam2Name()); ?>
+                                    </h4>
                                 </div>
                             </div>
 
@@ -141,21 +153,26 @@ include __DIR__ . '/../includes/header.php';
                             <div class="border-t border-gray-200 pt-4 space-y-2">
                                 <div class="flex items-center text-gray-600">
                                     <i class="fas fa-calendar mr-3 text-blue-600"></i>
-                                    <span><?php echo date('d/m/Y', strtotime($match['match_date'])); ?></span>
+                                    <span><?php echo date('d/m/Y', strtotime($match->getMatchDatetime())); ?></span>
                                 </div>
+
                                 <div class="flex items-center text-gray-600">
                                     <i class="fas fa-clock mr-3 text-blue-600"></i>
-                                    <span><?php echo date('H:i', strtotime($match['match_date'])); ?></span>
+                                    <span><?php echo date('H:i', strtotime($match->getMatchDatetime())); ?></span>
                                 </div>
+
                                 <div class="flex items-center text-gray-600">
                                     <i class="fas fa-map-marker-alt mr-3 text-blue-600"></i>
-                                    <span><?php echo htmlspecialchars($match['location']); ?></span>
+                                    <span>
+                                        <?php echo htmlspecialchars($match->getStadiumName()); ?>,
+                                        <?php echo htmlspecialchars($match->getCity()); ?>
+                                    </span>
                                 </div>
                             </div>
 
                             <!-- Bouton d'action -->
                             <div class="mt-6">
-                                <a href="/sports-ticketing/public/match-details.php?id=<?php echo $match['id']; ?>"
+                                <a href="/fan-seat/src/page/match-details.php?id=<?php echo $match->getId(); ?>"
                                     class="block w-full bg-linear-to-r from-blue-600 to-blue-700 text-white text-center py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition">
                                     <i class="fas fa-info-circle mr-2"></i>
                                     Voir les Détails
@@ -163,6 +180,7 @@ include __DIR__ . '/../includes/header.php';
                             </div>
                         </div>
                     </div>
+
                 <?php endforeach; ?>
             <?php endif; ?>
         </div>

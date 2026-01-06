@@ -3,7 +3,7 @@
 include __DIR__ . '/../config/requirefichier.php';
 
 class Category {
-    public function getByMatch($id) {
+    public static function getByMatch($id) {
         $connect = Database::getInstance() ->getconnect() ; 
         
         $sql = $connect -> prepare('SELECT * FROM match_categories WHERE match_id = :id ') ;
@@ -11,5 +11,6 @@ class Category {
         
         return $sql -> fetchAll() ;
 
+        
     }
 }

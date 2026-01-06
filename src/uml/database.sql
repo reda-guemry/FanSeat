@@ -16,8 +16,6 @@ create table users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
 ) ;
 
-drop table matches ; 
-
 
 CREATE TABLE matches (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -51,4 +49,14 @@ CREATE TABLE match_categories (
 );
 
 
-select * from match_categories
+
+create table tickete (
+    id INT AUTO_INCREMENT PRIMARY KEY ,
+    match_id INT NOT NULL,
+    user_id INT NOT NULL ,
+    ticket_code VARCHAR(50) UNIQUE NOT NULL,
+    pdf_path VARCHAR(255),
+    FOREIGN KEY (match_id) REFERENCES matches(id) ON DELETE CASCADE ,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE 
+);
+
