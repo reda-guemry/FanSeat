@@ -78,7 +78,7 @@ $user_role = $_SESSION['role'] ?? '';
                             </button>
                             <div
                                 class="hidden group-hover:block absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2">
-                                <a href="/sports-ticketing/user/profile.php"
+                                <a href="/fan-seat/src/page/profile.php"
                                     class="block px-4 py-2 text-gray-800 hover:bg-purple-50">
                                     <i class="fas fa-user-edit mr-2"></i> Mon Profil
                                 </a>
@@ -90,7 +90,7 @@ $user_role = $_SESSION['role'] ?? '';
                         </div>
                     <?php else: ?>
                         <!-- Menu visiteur non connecté -->
-                        <a href="/fan-seat/src/page/login.php" class="nav-link text-white hover:text-purple-200">
+                        <a href="/fan-seat/src/page/logine.php" class="nav-link text-white hover:text-purple-200">
                             <i class="fas fa-sign-in-alt mr-1"></i> Connexion
                         </a>
                         <a href="/fan-seat/src/page/register.php"

@@ -165,8 +165,8 @@ class Authentification
                     break;
             }
         } else {
-            // header('Location: /fan-seat/src/page/accueil.php');
-            // exit();
+            header('Location: /fan-seat/src/page/accueil.php');
+            exit();
         }
     }
 
