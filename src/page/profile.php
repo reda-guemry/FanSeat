@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
                         <div class="flex items-start">
                             <i class="fas fa-exclamation-circle text-red-500 mr-3 mt-0.5"></i>
-                            <div class="text-red-800"><?= $$_SESSION['success_message']['message'] ?></div>
+                            <div class="text-red-800"><?= $_SESSION['success_message']['message'] ?></div>
                         </div>
                     </div>
                      <?php unset($_SESSION['success_message']); ?>

@@ -108,11 +108,10 @@ class Acheuteur extends User
 
     private function checkData(array $data): array
     {
-        $connect = Database::getInstance()->getConnect();
 
         if (empty($data['first_name'])) {
             return [
-                'success' => true,
+                'success' => false ,
                 'message' => "First name is required"
             ];
         }
@@ -130,7 +129,7 @@ class Acheuteur extends User
             !filter_var($data['email'], FILTER_VALIDATE_EMAIL)
         ) {
             return [
-                'success' => true,
+                'success' => false,
                 'message' => "false email is required"
             ];
         }
@@ -139,21 +138,6 @@ class Acheuteur extends User
             return [
                 'success' => false,
                 'message' => "Phone number is required"
-            ];
-        }
-
-        $email_check = $connect->prepare(
-            "SELECT id FROM users WHERE email = :email AND id != :id"
-        );
-        $email_check->execute([
-            ':email' => $data['email'],
-            ':id' => $this->getUserId()
-        ]);
-
-        if ($email_check->fetch()) {
-            return [
-                'success' => false,
-                'message' => "Email already exists"
             ];
         }
 
@@ -168,11 +152,16 @@ class Acheuteur extends User
     {
 
         $errors = $this->checkData($data);
-        if (isset($data['current_password'])) {
+
+        if (!$errors['success']) {
+            return $errors;
+        }
+
+        if (!empty($data['current_password'])) {
             $errors = $this->modifierpassword($data);
         }
 
-        if ($errors['success']) {
+        if (!$errors['success']) {
             return $errors;
         }
 
@@ -198,18 +187,25 @@ class Acheuteur extends User
 
         return [
             'success' => true,
-             'message' => "profile updated successfully"
-        ];;
+            'message' => "profile updated successfully"
+        ];
+        ;
 
     }
 
     private function modifierpassword($data)
     {
         $connect = Database::getInstance()->getConnect();
-        if (!empty($data['current_password']) || !empty($data['confirm_password'])) {
-
+        if (empty($data['current_password']) || empty($data['confirm_password']) || empty($data['new_password'])) {
+            return [
+                'success' => false,
+                'message' => 'All input password is required'
+            ];
         } else if ($data['new_password'] !== $data['confirm_password']) {
-
+            return [
+                'success' => false,
+                'message' => 'Passwords do not match'
+            ];
         }
         $select = $connect->prepare('SELECT password from users WHERE id = :id');
         $select->execute([':id' => $this->getUserId()]);
@@ -231,7 +227,6 @@ class Acheuteur extends User
 
         return [
             'success' => true,
-            'message' => "Password updated successfully"
         ];
     }
 
