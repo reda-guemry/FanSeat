@@ -2,6 +2,11 @@
 
 include __DIR__ . '/../config/requirefichier.php';
 
+require_once __DIR__ . '/../../vendor/autoload.php'; 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+
 class Authentification
 {
 
@@ -90,6 +95,8 @@ class Authentification
             ':phone' => $userData['phone']
         ]);
 
+        $this -> sendMailverify($userData['email'] ,$userData['first_name']) ;
+
         return [
             'status' => true,
             'message' => 'Inscription réussie',
@@ -119,6 +126,13 @@ class Authentification
             ];
         }
 
+        if ($user['status'] == 0) {
+            return [
+                'status' => false,
+                'message' => 'Votre compte est désactivé. Veuillez contacter l’administrateur.'
+            ];
+        }
+
         $this->setSession($user);
 
         return [
@@ -135,21 +149,57 @@ class Authentification
         $_SESSION['role'] = $user['role'];
     }
 
-    public static function checkrole(string $role)
+
+    public static function checkuser()
     {
-        switch ($role) {
-            case 'user':
-                return new Acheuteur($_SESSION['user_id']);
-                break;
-            case 'admin':
-                return new Admine($_SESSION['user_id']);
-                break;
-            case 'organizer':
-                return new Organizer($_SESSION['user_id']);
-                break;
+        if (isset($_SESSION['user_id'])) {
+            switch ($_SESSION['role']) {
+                case 'user':
+                    return new Acheuteur($_SESSION['user_id']);
+                    break;
+                case 'admin':
+                    return new Admine($_SESSION['user_id']);
+                    break;
+                case 'organizer':
+                    return new Organizer($_SESSION['user_id']);
+                    break;
+            }
+        } else {
+            // header('Location: /fan-seat/src/page/accueil.php');
+            // exit();
         }
+    }
 
-        header('Location: logine.php');
+    private function sendMailverify($email, $name)
+    {
+        $mail = new PHPMailer(true);
 
+        try {
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'guemryreda@gmail.com';
+            $mail->Password = 'raaufzrfjkmwmwrf';
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = 587;
+
+            $mail->setFrom('guemryreda@gmail.com', 'Fan Seat');
+            $mail->addAddress($email, $name);
+            $mail->isHTML(true);
+            $mail->Subject = 'Welcome to Fan Seat! Your account has been created';
+            $mail->Body = "
+            <h2>Hello {$name},</h2>
+            <p>We are excited to inform you that your account has been successfully created on <strong>Fan Seat</strong> platform.</p>
+            <p>You can now log in and start exploring our services.</p>
+            <br>
+            <p>Thank you for joining us!</p>
+            <hr>
+            <p style='font-size:12px;color:#555;'>This is an automated email. Please do not reply.</p>
+            ";
+            $mail -> send();
+            return true ;
+        } catch (Exception $e) {
+            return 'Mailer Error: ' . $mail->ErrorInfo;
+        }
     }
 }

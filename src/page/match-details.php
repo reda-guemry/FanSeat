@@ -5,8 +5,9 @@
 
 require_once __DIR__ . '/../config/requirefichier.php';
 
-
-$user = Authentification::checkrole($_SESSION['role']);
+if (isset($_SESSION['user_id'])){
+    $user = Authentification::checkuser();
+}
 
 $average_rating = null;
 
@@ -17,15 +18,12 @@ if (isset($_GET['id'])) {
 }
 
 if (isset($_GET['action'])) {
-    $ticket = new Ticket($_SESSION['user_id'], $_GET['match_id'] ,$_GET['category_id'] );
-    $reponse = $ticket -> save() ; 
-    if ($reponse['message']) { 
-        header ("Location: match-details.php?id={$_GET['match_id']}");
-    }else {
-        die ($reponse['message']);
-    } 
+    $ticket = new Ticket($_SESSION['user_id'], $_GET['match_id'], $_GET['category_id']);
+    $reponse = $ticket->save();
+    $_SESSION['reponse'] = $reponse;
+    header("Location: match-details.php?id={$_GET['match_id']}");
+    exit ;
 }
-
 
 include __DIR__ . '/../includes/header.php';
 ?>
@@ -39,6 +37,20 @@ include __DIR__ . '/../includes/header.php';
                 Retour aux matchs
             </a>
         </div>
+
+        <?php if (isset($_SESSION['reponse']) && $_SESSION['reponse']['status']): ?>
+            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded my-2">
+                <i class="fas fa-exclamation-circle mr-2"></i>
+                <?php echo htmlspecialchars($_SESSION['reponse']['message']); ?>
+            </div>
+            <?php unset($_SESSION['reponse']); ?>
+        <?php elseif (isset($_SESSION['reponse'])): ?>
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded mb-6">
+                <i class="fas fa-exclamation-circle mr-2"></i>
+                <?php echo htmlspecialchars($_SESSION['reponse']['message']); ?>
+            </div>
+            <?php unset($_SESSION['reponse']); ?>
+        <?php endif; ?>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Colonne principale -->
@@ -86,6 +98,7 @@ include __DIR__ . '/../includes/header.php';
                             </div>
                         </div>
                     </div>
+
 
                     <!-- Informations du match -->
                     <div class="p-6">
@@ -221,12 +234,12 @@ include __DIR__ . '/../includes/header.php';
                                 Vous devez être connecté pour acheter des billets
                             </p>
                         </div>
-                        <a href="/sports-ticketing/public/login.php"
+                        <a href="/fan-seat/src/page/logine.php"
                             class="block w-full bg-blue-600 text-white text-center py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
                             <i class="fas fa-sign-in-alt mr-2"></i>
                             Se Connecter
                         </a>
-                        <a href="/sports-ticketing/public/register.php"
+                        <a href="/fan-seat/src/page/register.php"
                             class="block w-full mt-3 bg-white border-2 border-blue-600 text-blue-600 text-center py-3 rounded-lg font-semibold hover:bg-blue-50 transition">
                             <i class="fas fa-user-plus mr-2"></i>
                             Créer un Compte

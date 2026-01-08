@@ -5,7 +5,12 @@ require_once __DIR__ . '/../config/requirefichier.php';
 
 $page_title = ' Dashboard Organisateur - Sports Ticketing';
 
-$user = Authentification::checkrole($_SESSION['role']);
+
+
+if (isset($_SESSION['user_id'])) {
+    $user = Authentification::checkuser();
+}
+
 
 
 $matches = MatchGame::getMatchesByStatus('approved');
@@ -77,22 +82,10 @@ include __DIR__ . '/../includes/header.php';
             <form method="GET" action="" class="flex flex-col md:flex-row gap-4">
                 <div class="flex-1">
                     <input type="text" name="search" placeholder="Rechercher un match, équipe ou lieu..."
-                        value="<?php echo htmlspecialchars($search_query); ?>"
+                        value="<?php //echo htmlspecialchars($search_query); ?>"
                         class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
-                <div class="md:w-64">
-                    <select name="location"
-                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="">Tous les lieux</option>
-                        <option value="Casablanca" <?php echo $location_filter === 'Casablanca' ? 'selected' : ''; ?>>
-                            Casablanca</option>
-                        <option value="Rabat" <?php echo $location_filter === 'Rabat' ? 'selected' : ''; ?>>Rabat</option>
-                        <option value="Marrakech" <?php echo $location_filter === 'Marrakech' ? 'selected' : ''; ?>>
-                            Marrakech</option>
-                        <option value="Agadir" <?php echo $location_filter === 'Agadir' ? 'selected' : ''; ?>>Agadir
-                        </option>
-                    </select>
-                </div>
+
                 <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
                     <i class="fas fa-search mr-2"></i>
                     Rechercher
@@ -203,6 +196,5 @@ include __DIR__ . '/../includes/header.php';
         <?php endif; ?>
     </div>
 </section>
-
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>

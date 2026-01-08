@@ -9,7 +9,7 @@ require_once __DIR__ . '/../../config/requirefichier.php';
 
 $resule = null;
 
-$admin = new Admine($_SESSION['user_id']);
+$admin = Authentification::checkuser();
 
 $pending_matches = MatchGame::getMatchesByStatus('pending');
 

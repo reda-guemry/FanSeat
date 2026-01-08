@@ -7,6 +7,7 @@
 
     $error = null ;
 
+    
 
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
         $autentification = new Authentification() ;

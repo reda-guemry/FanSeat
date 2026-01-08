@@ -1,5 +1,5 @@
 <!-- Footer -->
-<footer class="bg-linear-to-r from-purple-700 to-purple-800 text-white mt-16">
+<footer class="bg-linear-to-r from-purple-700 to-purple-800 text-white ">
     <div class="container mx-auto px-4 py-12">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
             <!-- À propos -->
@@ -13,7 +13,6 @@
                     Achetez vos billets en ligne facilement et en toute sécurité.
                 </p>
             </div>
-
             <!-- Liens rapides -->
             <div>
                 <h3 class="text-xl font-bold mb-4">Liens Rapides</h3>

@@ -105,29 +105,4 @@ class Acheuteur extends User
         $this->status = $status;
     }
 
-    public function findById(int $id)
-    {
-        $sql = 'SELECT * FROM users WHERE id = :user_id ';
-
-        $data = $this->connect->prepare($sql);
-
-        $data->execute([':user_id' => $id]);
-
-        $data = $data->fetch();
-
-        switch ($data['role']) {
-            case 'user':
-                return new Acheuteur($data);
-                break;
-            case 'admin':
-                return new Admine($data);
-                break;
-            case 'organizer':
-                return new Organizer($data);
-                break;
-        }
-
-    }
-
-
 }

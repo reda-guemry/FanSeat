@@ -55,7 +55,7 @@ $user_role = $_SESSION['role'] ?? '';
                     <?php if ($is_logged_in): ?>
                         <!-- Menu utilisateur connecté -->
                         <?php if ($user_role === 'admin'): ?>
-                            <a href="/sports-ticketing/admin/dashboard.php" class="nav-link text-white hover:text-purple-200">
+                            <a href="/fan-seat/src/page/admin/dashboard.php" class="nav-link text-white hover:text-purple-200">
                                 <i class="fas fa-tachometer-alt mr-1"></i> Dashboard Admin
                             </a>
                         <?php elseif ($user_role === 'organizer'): ?>
@@ -64,7 +64,7 @@ $user_role = $_SESSION['role'] ?? '';
                                 <i class="fas fa-calendar-plus mr-1"></i> Dashboard Organisateur
                             </a>
                         <?php else: ?>
-                            <a href="/sports-ticketing/user/dashboard.php" class="nav-link text-white hover:text-purple-200">
+                            <a href="/fan-seat/src/page/user/dhashborduser.php" class="nav-link text-white hover:text-purple-200">
                                 <i class="fas fa-user mr-1"></i> Mes Billets
                             </a>
                         <?php endif; ?>
@@ -128,14 +128,14 @@ $user_role = $_SESSION['role'] ?? '';
                             <i class="fas fa-user mr-2"></i> Mes Billets
                         </a>
                     <?php endif; ?>
-                    <a href="/sports-ticketing/user/profile.php" class="block text-white py-2 hover:text-purple-200">
+                    <a href="/fan-seat/src/page/profile.php" class="block text-white py-2 hover:text-purple-200">
                         <i class="fas fa-user-edit mr-2"></i> Mon Profil
                     </a>
                     <a href="/fan-seat/src/page/logout.php" class="block text-red-300 py-2 hover:text-red-100">
                         <i class="fas fa-sign-out-alt mr-2"></i> Déconnexion
                     </a>
                 <?php else: ?>
-                    <a href="/fan-seat/src/page/login.php" class="block text-white py-2 hover:text-purple-200">
+                    <a href="/fan-seat/src/page/logine.php" class="block text-white py-2 hover:text-purple-200">
                         <i class="fas fa-sign-in-alt mr-2"></i> Connexion
                     </a>
                     <a href="/fan-seat/src/page/register.php" class="block text-white py-2 hover:text-purple-200">

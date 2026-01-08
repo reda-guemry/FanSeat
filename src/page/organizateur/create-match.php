@@ -10,7 +10,8 @@ $resule = null ;
 
 $page_title = 'Créer un Match - Sports Ticketing';
 
-$organizateur = new Organizer($_SESSION['user_id']);
+$organizateur = Authentification::checkuser();
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = [

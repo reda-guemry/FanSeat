@@ -10,7 +10,7 @@ $resule = null;
 
 $page_title = ' Dashboard Organisateur - Sports Ticketing';
 
-$organizateur = new Organizer($_SESSION['user_id']);
+$organizateur = Authentification::checkuser();
 
 $pending_matches = MatchGame::getMatchesByStatus('pending');
 
@@ -112,7 +112,7 @@ include __DIR__ . '/../../includes/header.php';
                 </p>
                 <p class="text-purple-300 mt-2">
                     <i class="fas fa-calendar mr-2"></i>
-                    <?php ////echo date('l d F Y'); ?>
+                    <?php echo date('l d F Y'); ?>
                 </p>
             </div>
 
