@@ -76,12 +76,15 @@ $user_role = $_SESSION['role'] ?? '';
                                 <span><?php echo htmlspecialchars($user_name); ?></span>
                                 <i class="fas fa-chevron-down ml-2"></i>
                             </button>
+                            <?php if ($_SESSION['role'] !== 'admin') : ?>
                             <div
                                 class="hidden group-hover:block absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2">
                                 <a href="/fan-seat/src/page/profile.php"
                                     class="block px-4 py-2 text-gray-800 hover:bg-purple-50">
                                     <i class="fas fa-user-edit mr-2"></i> Mon Profil
                                 </a>
+                            <?php endif ; ?>
+                            
                                 <a href="/fan-seat/src/page/logout.php"
                                     class="block px-4 py-2 text-red-600 hover:bg-red-50">
                                     <i class="fas fa-sign-out-alt mr-2"></i> Déconnexion

@@ -14,7 +14,7 @@ $organizateur = Authentification::checkuser();
 
 $pending_matches = MatchGame::getMatchesByStatus('pending');
 
-$published_matches = MatchGame::getMatchesByStatus('approved');
+$published_matches = MatchGame::getMatchesByIdOrganizateur( $organizateur -> getUserId(),'approved');
 
 
 include __DIR__ . '/../../includes/header.php';
@@ -164,7 +164,7 @@ include __DIR__ . '/../../includes/header.php';
                     </div>
                     <div class="text-right">
                         <p class="text-gray-500 text-sm font-semibold">VENDUS</p>
-                        <p class="text-4xl font-black text-gray-800"><?php //echo $stats['tickets_sold']; ?></p>
+                        <p class="text-4xl font-black text-gray-800"><?= MatchGame::getNumberOfVendus($organizateur -> getUserId()) ?></p>
                     </div>
                 </div>
                 <p class="text-green-700 font-bold flex items-center">
@@ -184,7 +184,7 @@ include __DIR__ . '/../../includes/header.php';
                     <div class="text-right">
                         <p class="text-gray-500 text-sm font-semibold">REVENUS</p>
                         <p class="text-4xl font-black text-gray-800">
-                            <?php //echo number_format($stats['revenue'], 0); ?></p>
+                            <?= number_format(MatchGame::getPriceRevenue($organizateur -> getUserId()), 0); ?></p>
                     </div>
                 </div>
                 <p class="text-yellow-700 font-bold flex items-center">
@@ -318,7 +318,7 @@ include __DIR__ . '/../../includes/header.php';
                             Matchs Publiés
                         </span>
                         <span class="bg-white text-green-600 px-4 py-2 rounded-full font-bold text-lg">
-                            <?php //echo count($published_matches); ?>
+                            <?php echo count($published_matches); ?>
                         </span>
                     </h2>
                 </div>

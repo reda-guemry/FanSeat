@@ -129,7 +129,7 @@ include __DIR__ . '/../../includes/header.php';
 <section class="py-12 bg-gradient-to-br from-purple-50 via-white to-pink-50">
     <div class="container mx-auto px-4">
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
 
             <!-- Total Billets -->
             <div class="ticket-card-hover bg-white rounded-3xl shadow-xl p-8 border-t-4 border-purple-600 animate-fade-in-up"
@@ -141,31 +141,12 @@ include __DIR__ . '/../../includes/header.php';
                     </div>
                     <div class="text-right">
                         <p class="text-gray-500 text-sm font-semibold">MES BILLETS</p>
-                        <p class="text-4xl font-black text-gray-800"><?php //echo $total_tickets; ?></p>
+                        <p class="text-4xl font-black text-gray-800"><?=  Ticket::getTotalBiller($user -> getUserId() ); ?></p>
                     </div>
                 </div>
                 <p class="text-purple-700 font-bold flex items-center">
                     <i class="fas fa-check-circle mr-2"></i>
                     Billets achetés
-                </p>
-            </div>
-
-            <!-- À Venir -->
-            <div class="ticket-card-hover bg-white rounded-3xl shadow-xl p-8 border-t-4 border-green-600 animate-fade-in-up"
-                style="animation-delay: 0.2s">
-                <div class="flex items-center justify-between mb-4">
-                    <div
-                        class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-700 rounded-2xl flex items-center justify-center shadow-lg">
-                        <i class="fas fa-calendar-check text-3xl text-white"></i>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-gray-500 text-sm font-semibold">À VENIR</p>
-                        <p class="text-4xl font-black text-gray-800"><?php //echo count($upcoming_tickets); ?></p>
-                    </div>
-                </div>
-                <p class="text-green-700 font-bold flex items-center">
-                    <i class="fas fa-clock mr-2"></i>
-                    Matchs prochains
                 </p>
             </div>
 
@@ -179,7 +160,7 @@ include __DIR__ . '/../../includes/header.php';
                     </div>
                     <div class="text-right">
                         <p class="text-gray-500 text-sm font-semibold">DÉPENSÉ</p>
-                        <p class="text-4xl font-black text-gray-800"><?php //echo number_format($total_spent, 0); ?></p>
+                        <p class="text-4xl font-black text-gray-800"><?=  number_format(Ticket::getDepenseTotal($user -> getUserId()), 0); ?></p>
                     </div>
                 </div>
                 <p class="text-yellow-700 font-bold flex items-center">

@@ -19,7 +19,7 @@
                 exit();
             }
             if($_SESSION['role'] === 'organizer') { 
-                header('Location: ../organizateur/dhasbordorganizateur.php');
+                header('Location: organizateur/dhasbordorganizateur.php');
                 exit();
             }
             if($_SESSION['role'] === 'user') { 

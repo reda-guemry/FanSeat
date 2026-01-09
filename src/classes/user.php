@@ -65,4 +65,8 @@ abstract class User
 
     }
 
+    public function deconexion () {
+        
+    }
+
 }

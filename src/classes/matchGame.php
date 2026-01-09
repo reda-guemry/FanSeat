@@ -266,7 +266,7 @@ class MatchGame
     {
         $db = Database::getInstance()->getConnect();
 
-        $select = $db->prepare('SELECT * FROM matches WHERE  status = :statu ');
+        $select = $db->prepare('SELECT * FROM matches WHERE  status = :statu');
         $select->execute([':statu' => $statu]);
         $rows = $select->fetchAll();
 
@@ -279,10 +279,30 @@ class MatchGame
         return $matches;
     }
 
-    public static function getMatchesById($id) {
+    public static function getMatchesByIdOrganizateur($id, $statu)
+    {
+        $db = Database::getInstance()->getConnect();
+
+        $select = $db->prepare('SELECT * FROM matches WHERE  status = :statu AND organizer_id = :id');
+        $select->execute([
+            ':statu' => $statu,
+            ':id' => $id
+        ]);
+        $rows = $select->fetchAll();
+
+        $matches = [];
+
+        foreach ($rows as $row) {
+            $matches[] = new MatchGame($row);
+        }
+        return $matches;
+    }
+
+    public static function getMatchesById($id)
+    {
         $db = Database::getInstance()->getconnect();
         $select = $db->prepare('SELECT * FROM matches WHERE id = :id');
-        $select->execute([':id'=> $id]);
+        $select->execute([':id' => $id]);
         $row = $select->fetch();
         $matche = new MatchGame($row);
         return $matche;
@@ -302,11 +322,39 @@ class MatchGame
 
     }
 
-    public function getcategoriebyId(){
-        $this -> categories = Category::getByMatch($this -> getId()) ; 
+    public function getcategoriebyId()
+    {
+        $this->categories = Category::getByMatch($this->getId());
     }
 
 
+    public static function getNumberOfVendus($id)
+    {
+        $connect = Database::getInstance()->getconnect();
 
+        $allplace = $connect->prepare('SELECT COALESCE(SUM(total_places) , 0) from matches where organizer_id = :id and status = "approved" ;');
+        $allplace->execute([':id' => $id]);
+        $count = $allplace->fetchColumn();
+
+        $placereserver = $connect->prepare('SELECT COALESCE(SUM(mc.placereserver) , 0)
+                                                    from matches m 
+                                                    inner join match_categories mc on mc.match_id = m.id
+                                                    where m.organizer_id = :id and status = "approved"');
+        $placereserver->execute([':id' => $id]);
+        return $count - $placereserver->fetchColumn();
+    }
+
+
+    public static function getPriceRevenue($id)
+    {
+
+        $connect = Database::getInstance()->getconnect();
+        $revenue = $connect->prepare('SELECT sum(mc.placereserver * mc.price)
+                                                FROM matches m 
+                                                inner join match_categories mc on mc.match_id = m.id
+                                                where m.organizer_id = :id and status = "approved";');
+        $revenue->execute([':id' => $id]);
+        return $revenue->fetchColumn();
+    }
 
 }

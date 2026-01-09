@@ -89,7 +89,7 @@ class Ticket
                 ':categorie_id' => $this->category_id
             ]);
 
-            $update = $connect->prepare('UPDATE match_categories SET total_places = total_places - 1 WHERE id = :categorie_id');
+            $update = $connect->prepare('UPDATE match_categories SET placereserver = placereserver + 1 WHERE id = :categorie_id');
             $update->execute([':categorie_id' => $this->category_id]);
 
             $connect->commit();
@@ -372,6 +372,25 @@ class Ticket
         $query = $connect->prepare($query);
         $query->execute([':id' => $user_id]);
         return $query->fetchAll();
+    }
+
+    public static function getTotalBiller(int $id) {
+        $connect = Database::getInstance()->getConnect();
+        $query = $connect -> prepare('SELECT count(*) from tickets WHERE user_id = :id');
+        $query->execute([':id'=> $id]);
+
+        return $query->fetchColumn();
+    }
+
+    public static function getDepenseTotal(int $id) {
+        $connect = Database::getInstance()->getConnect();
+        $query = $connect -> prepare('SELECT sum(mc.price)
+                                                from  tickets t 
+                                                inner join match_categories mc on mc.id = t.cetrgorie_id 
+                                                where t.user_id = :id');
+        $query->execute([':id'=> $id]);
+
+        return $query->fetchColumn();
     }
 
 }

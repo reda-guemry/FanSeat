@@ -127,6 +127,129 @@ class Organizer extends User
         return $query -> fetchColumn();   
     }
 
+    private function checkData(array $data): array
+    {
+
+        if (empty($data['first_name'])) {
+            return [
+                'success' => false ,
+                'message' => "First name is required"
+            ];
+        }
+
+        if (empty($data['last_name'])) {
+            $errors[] = "Last name is required";
+            return [
+                'success' => false,
+                'message' => "Last name is required"
+            ];
+        }
+
+        if (
+            empty($data['email']) ||
+            !filter_var($data['email'], FILTER_VALIDATE_EMAIL)
+        ) {
+            return [
+                'success' => false,
+                'message' => "false email is required"
+            ];
+        }
+
+        if (empty($data['phone'])) {
+            return [
+                'success' => false,
+                'message' => "Phone number is required"
+            ];
+        }
+
+        return [
+            'success' => true
+        ];
+    }
+
+
+
+    public function modifierprofile($data)
+    {
+
+        $errors = $this->checkData($data);
+
+        if (!$errors['success']) {
+            return $errors;
+        }
+
+        if (!empty($data['current_password'])) {
+            $errors = $this->modifierpassword($data);
+        }
+
+        if (!$errors['success']) {
+            return $errors;
+        }
+
+        $connect = Database::getInstance()->getConnect();
+
+        $sql = "UPDATE users 
+            SET first_name = :first_name,
+                last_name  = :last_name,
+                email      = :email,
+                phone      = :phone
+            WHERE id = :id";
+
+        $stmt = $connect->prepare($sql);
+        $stmt->execute([
+            ':first_name' => $data['first_name'],
+            ':last_name' => $data['last_name'],
+            ':email' => $data['email'],
+            ':phone' => $data['phone'],
+            ':id' => $this->getUserId()
+        ]);
+
+
+
+        return [
+            'success' => true,
+            'message' => "profile updated successfully"
+        ];
+        ;
+
+    }
+
+    private function modifierpassword($data)
+    {
+        $connect = Database::getInstance()->getConnect();
+        if (empty($data['current_password']) || empty($data['confirm_password']) || empty($data['new_password'])) {
+            return [
+                'success' => false,
+                'message' => 'All input password is required'
+            ];
+        } else if ($data['new_password'] !== $data['confirm_password']) {
+            return [
+                'success' => false,
+                'message' => 'Passwords do not match'
+            ];
+        }
+        $select = $connect->prepare('SELECT password from users WHERE id = :id');
+        $select->execute([':id' => $this->getUserId()]);
+        $user = $select->fetch();
+
+        if (!password_verify($data['current_password'], $user['password'])) {
+            return [
+                'success' => false,
+                'message' => "Cannot update password"
+            ];
+        }
+
+        $passwordHash = password_hash($data['new_password'], PASSWORD_DEFAULT);
+        $stmt = $connect->prepare('UPDATE users SET password = :password WHERE id = :id');
+        $stmt->execute([
+            ':password' => $passwordHash,
+            ':id' => $this->getUserId()
+        ]);
+
+        return [
+            'success' => true,
+        ];
+    }
 
 
 }
