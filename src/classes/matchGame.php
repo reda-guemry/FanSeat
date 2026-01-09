@@ -172,16 +172,43 @@ class MatchGame
         return ['status' => true];
     }
 
+    private function checkSiteNumber()
+    {
+        if (empty($this->categories)) {
+            return [
+                'status' => false,
+                'message' => 'Aucune catégorie définie pour ce match.'
+            ];
+        }
+        $check = 0;
+        foreach ($this->categories as $site) {
+            $check += $site['total_places'];
+        }
+        if ($check > $this->total_places) {
+            return [
+                'status' => false,
+                'message' => 'Invalid configuration: categories total_places exceeds total_places limit.'
+            ];
+        }
+        return ['status' => true];
+    }
+
 
     public function insertmatch()
     {
+        $connect = Database::getInstance()->getconnect();
+
         $logoResult = $this->saveLogo();
 
         if (!$logoResult['status'])
             return $logoResult;
+        $logoResult = $this->checkSiteNumber();
+        if (!$logoResult['status'])
+            return $logoResult;
+
+        $connect->beginTransaction();
 
         try {
-            $connect = Database::getInstance()->getconnect();
             $sql = 'INSERT INTO matches (organizer_id,team1_name,team1_short,team1_logo,team2_name,team2_short,team2_logo,match_datetime,duration,stadium_name,city,address,total_places,status) VALUES (
                                     :organizer_id,
                                     :team1_name,
@@ -222,6 +249,7 @@ class MatchGame
             if (!$catResult['status'])
                 return $catResult;
 
+            $connect->commit();
             return [
                 'status' => true,
                 'message' => 'Match créé avec succès'

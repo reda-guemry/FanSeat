@@ -6,7 +6,7 @@
 
 require_once __DIR__ . '/../../config/requirefichier.php';
 
-$resule = null ;
+$resule = null;
 
 $page_title = 'Créer un Match - Sports Ticketing';
 
@@ -104,6 +104,17 @@ include __DIR__ . '/../../includes/header.php';
     </div>
 </section>
 
+<?php if (!empty($result) && $result['status'] === false): ?>
+    <div class="max-w-6xl m-auto p-4 rounded-lg  animate-slide-in bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded mb-6">
+        <i class="fas fa-exclamation-circle mr-2"></i>
+        <?= $result['message'] ?>
+    </div>
+<?php elseif (!empty($result) && $result['status'] === true): ?>
+    <div class="max-w-6xl m-auto p-4 rounded-lg  animate-slide-in bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded my-2">
+        <i class="fas fa-exclamation-circle mr-2"></i>
+        <?= $result['message'] ?>
+    </div>
+<?php endif; ?>
 <!-- Main Content -->
 <section class="py-12 bg-gradient-to-br from-purple-50 to-white min-h-screen">
     <div class="container mx-auto px-4 max-w-6xl">
@@ -118,17 +129,6 @@ include __DIR__ . '/../../includes/header.php';
             </div>
         </div>
 
-        <?php if (!empty($result) && $result['status'] === false ): ?>
-            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded mb-6">
-                <i class="fas fa-exclamation-circle mr-2"></i>
-                <?= $result['message'] ?>
-            </div>
-        <?php elseif(!empty($result) && $result['status'] === true): ?>
-            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded my-2">
-                <i class="fas fa-exclamation-circle mr-2"></i>
-                <?= $result['message'] ?>
-            </div>
-        <?php endif; ?>
 
 
         <!-- Form Container -->
