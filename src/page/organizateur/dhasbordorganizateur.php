@@ -145,7 +145,7 @@ include __DIR__ . '/../../includes/header.php';
                     </div>
                     <div class="text-right">
                         <p class="text-gray-500 text-sm font-semibold">TOTAL</p>
-                        <p class="text-4xl font-black text-gray-800"><?php echo $organizateur -> getCountMatch() ; ?></p>
+                        <p class="text-4xl font-black text-gray-800"><?=  $organizateur -> NumberEvenmentCree() ; ?></p>
                     </div>
                 </div>
                 <p class="text-purple-700 font-bold flex items-center">
@@ -164,7 +164,7 @@ include __DIR__ . '/../../includes/header.php';
                     </div>
                     <div class="text-right">
                         <p class="text-gray-500 text-sm font-semibold">VENDUS</p>
-                        <p class="text-4xl font-black text-gray-800"><?= MatchGame::getNumberOfVendus($organizateur -> getUserId()) ?></p>
+                        <p class="text-4xl font-black text-gray-800"><?= $organizateur -> getNumberOfVendus() ?></p>
                     </div>
                 </div>
                 <p class="text-green-700 font-bold flex items-center">
@@ -184,7 +184,7 @@ include __DIR__ . '/../../includes/header.php';
                     <div class="text-right">
                         <p class="text-gray-500 text-sm font-semibold">REVENUS</p>
                         <p class="text-4xl font-black text-gray-800">
-                            <?= number_format(MatchGame::getPriceRevenue($organizateur -> getUserId()), 0); ?></p>
+                            <?= number_format($organizateur -> getPriceRevenue() , 0); ?></p>
                     </div>
                 </div>
                 <p class="text-yellow-700 font-bold flex items-center">
@@ -203,7 +203,7 @@ include __DIR__ . '/../../includes/header.php';
                     </div>
                     <div class="text-right">
                         <p class="text-gray-500 text-sm font-semibold">ATTENTE</p>
-                        <p class="text-4xl font-black text-gray-800"><?php echo $organizateur -> getCountMatchPending(); ?></p>
+                        <p class="text-4xl font-black text-gray-800"><?= $organizateur -> getCountMatchPending(); ?></p>
                     </div>
                 </div>
                 <p class="text-orange-700 font-bold flex items-center">
@@ -229,7 +229,7 @@ include __DIR__ . '/../../includes/header.php';
                 </div>
             </a>
 
-            <a href="/sports-ticketing/organizer/my-matches.php"
+            <a href="/fan-seat/src/page/organizateur/allmatch.php"
                 class="card-hover bg-gradient-to-br from-pink-600 to-rose-700 rounded-3xl p-8 text-white shadow-2xl animate-fade-in-up"
                 style="animation-delay: 0.6s">
                 <div class="flex items-center justify-between mb-4">
@@ -258,7 +258,7 @@ include __DIR__ . '/../../includes/header.php';
                             Matchs en Attente
                         </span>
                         <span class="bg-white text-orange-600 px-4 py-2 rounded-full font-bold text-lg">
-                            <?php //echo count($pending_matches); ?>
+                            <?= $organizateur -> getNombreMatchValider() ?>
                         </span>
                     </h2>
                 </div>

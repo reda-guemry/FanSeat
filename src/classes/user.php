@@ -65,8 +65,10 @@ abstract class User
 
     }
 
-    public function deconexion () {
-        
+    public static function deconexion () {
+        $_SESSION = [];
+        session_destroy();
+        header('Location: accueil.php');
     }
 
 }

@@ -85,7 +85,7 @@ $user_role = $_SESSION['role'] ?? '';
                                 </a>
                             <?php endif ; ?>
                             
-                                <a href="/fan-seat/src/page/logout.php"
+                                <a href="/fan-seat/src/page/deconnexion.php"
                                     class="block px-4 py-2 text-red-600 hover:bg-red-50">
                                     <i class="fas fa-sign-out-alt mr-2"></i> Déconnexion
                                 </a>
@@ -134,7 +134,7 @@ $user_role = $_SESSION['role'] ?? '';
                     <a href="/fan-seat/src/page/profile.php" class="block text-white py-2 hover:text-purple-200">
                         <i class="fas fa-user-edit mr-2"></i> Mon Profil
                     </a>
-                    <a href="/fan-seat/src/page/logout.php" class="block text-red-300 py-2 hover:text-red-100">
+                    <a href="/fan-seat/src/page/deconnexion.php" class="block text-red-300 py-2 hover:text-red-100">
                         <i class="fas fa-sign-out-alt mr-2"></i> Déconnexion
                     </a>
                 <?php else: ?>

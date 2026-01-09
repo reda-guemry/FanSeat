@@ -15,6 +15,10 @@ require_once __DIR__ . '/../classes/acheuteur.php';
 require_once __DIR__ . '/../classes/autentification.php';
 require_once __DIR__ . '/../classes/category.php';
 require_once __DIR__ . '/../classes/ticket.php';
+require_once __DIR__ . '/../classes/comment.php';
+
+
+
 
 
 if (session_status() === PHP_SESSION_NONE) {

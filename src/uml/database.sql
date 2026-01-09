@@ -66,7 +66,4 @@ FROM
     inner join match_categories mg on mg.id = t.cetrgorie_id;
 
 
-SELECT sum(mc.price)
-from  tickets t 
-inner join match_categories mc on mc.id = t.cetrgorie_id 
-where t.user_id = 27
+SELECT * FROM matches where organizer_id = 35

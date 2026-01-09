@@ -10,7 +10,5 @@ class Category {
         $sql -> execute([':id' => $id]) ;
         
         return $sql -> fetchAll() ;
-
-        
     }
 }

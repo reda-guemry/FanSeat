@@ -21,7 +21,7 @@ class Organizer extends User
 
     private function setUserData(array $data)
     {
-        $this -> user_id = $data['id'] ;
+        $this->user_id = $data['id'];
         $this->first_name = $data['first_name'];
         $this->last_name = $data['last_name'];
         $this->email = $data['email'];
@@ -114,17 +114,19 @@ class Organizer extends User
         return new MatchGame($data);
     }
 
-    public function getCountMatch() {
-        $connect = Database::getInstance() ->getconnect();
-        $query = $connect -> prepare('SELECT COUNT(*) FROM matches WHERE organizer_id = :id');
-        $query -> execute([':id' => $this->getUserId()]);
-        return $query -> fetchColumn();   
+    public function getCountMatch()
+    {
+        $connect = Database::getInstance()->getconnect();
+        $query = $connect->prepare('SELECT COUNT(*) FROM matches WHERE organizer_id = :id');
+        $query->execute([':id' => $this->getUserId()]);
+        return $query->fetchColumn();
     }
-    public function getCountMatchPending() {
-        $connect = Database::getInstance() ->getconnect();
-        $query = $connect -> prepare('SELECT COUNT(*) FROM matches WHERE organizer_id = :id AND status = "pending"');
-        $query -> execute([':id' => $this->getUserId()]);
-        return $query -> fetchColumn();   
+    public function getCountMatchPending()
+    {
+        $connect = Database::getInstance()->getconnect();
+        $query = $connect->prepare('SELECT COUNT(*) FROM matches WHERE organizer_id = :id AND status = "pending"');
+        $query->execute([':id' => $this->getUserId()]);
+        return $query->fetchColumn();
     }
 
     private function checkData(array $data): array
@@ -132,7 +134,7 @@ class Organizer extends User
 
         if (empty($data['first_name'])) {
             return [
-                'success' => false ,
+                'success' => false,
                 'message' => "First name is required"
             ];
         }
@@ -249,6 +251,51 @@ class Organizer extends User
         return [
             'success' => true,
         ];
+    }
+
+    public function getNumberOfVendus()
+    {
+        $connect = Database::getInstance()->getconnect();
+
+        $allplace = $connect->prepare('SELECT COALESCE(SUM(total_places) , 0) from matches where organizer_id = :id and status = "approved" ;');
+        $allplace->execute([':id' => $this -> user_id]);
+        $count = $allplace->fetchColumn();
+
+        $placereserver = $connect->prepare('SELECT COALESCE(SUM(mc.placereserver) , 0)
+                                                    from matches m 
+                                                    inner join match_categories mc on mc.match_id = m.id
+                                                    where m.organizer_id = :id and status = "approved"');
+        $placereserver->execute([':id' => $this -> user_id]);
+        return $count - $placereserver->fetchColumn();
+    }
+
+
+    public function getPriceRevenue()
+    {
+
+        $connect = Database::getInstance()->getconnect();
+        $revenue = $connect->prepare('SELECT sum(mc.placereserver * mc.price)
+                                                FROM matches m 
+                                                inner join match_categories mc on mc.match_id = m.id
+                                                where m.organizer_id = :id and status = "approved";');
+        $revenue->execute([':id' => $this -> user_id]);
+        return $revenue->fetchColumn();
+    }
+
+    public function getNombreMatchValider()
+    {
+        $connect = Database::getInstance()->getconnect();
+        $revenue = $connect->prepare('SELECT count(*) FROM matches where organizer_id = :id');
+        $revenue->execute([':id' => $this -> user_id]);
+        return $revenue->fetchColumn();
+    }
+
+
+    public function NumberEvenmentCree() {
+        $connect = Database::getInstance()->getconnect();
+        $revenue = $connect->prepare('SELECT COUNT(*) FROM matches where organizer_id = :id');
+        $revenue->execute([':id'=> $this -> user_id]);
+        return $revenue->fetchColumn();
     }
 
 

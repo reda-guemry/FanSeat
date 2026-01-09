@@ -328,33 +328,5 @@ class MatchGame
     }
 
 
-    public static function getNumberOfVendus($id)
-    {
-        $connect = Database::getInstance()->getconnect();
-
-        $allplace = $connect->prepare('SELECT COALESCE(SUM(total_places) , 0) from matches where organizer_id = :id and status = "approved" ;');
-        $allplace->execute([':id' => $id]);
-        $count = $allplace->fetchColumn();
-
-        $placereserver = $connect->prepare('SELECT COALESCE(SUM(mc.placereserver) , 0)
-                                                    from matches m 
-                                                    inner join match_categories mc on mc.match_id = m.id
-                                                    where m.organizer_id = :id and status = "approved"');
-        $placereserver->execute([':id' => $id]);
-        return $count - $placereserver->fetchColumn();
-    }
-
-
-    public static function getPriceRevenue($id)
-    {
-
-        $connect = Database::getInstance()->getconnect();
-        $revenue = $connect->prepare('SELECT sum(mc.placereserver * mc.price)
-                                                FROM matches m 
-                                                inner join match_categories mc on mc.match_id = m.id
-                                                where m.organizer_id = :id and status = "approved";');
-        $revenue->execute([':id' => $id]);
-        return $revenue->fetchColumn();
-    }
 
 }

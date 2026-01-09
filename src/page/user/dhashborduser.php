@@ -10,6 +10,18 @@ $user = Authentification::checkuser();
 
 $upcoming_tickets = Ticket::getTicketsByUserId($user->getUserId());
 
+$pastCount = 0;
+$today = new DateTime(); 
+
+foreach ($upcoming_tickets as $ticket) {
+    $matchDate = new DateTime($ticket['match_datetime']);
+
+    if ($matchDate < $today) {
+        $pastCount++;
+    }
+}
+
+
 $available_matches = MatchGame::getMatchesByStatus('approved');
 
 if (isset($_GET['action'])) {
@@ -179,7 +191,7 @@ include __DIR__ . '/../../includes/header.php';
                     </div>
                     <div class="text-right">
                         <p class="text-gray-500 text-sm font-semibold">PASSÉS</p>
-                        <p class="text-4xl font-black text-gray-800"><?php //echo count($past_tickets); ?></p>
+                        <p class="text-4xl font-black text-gray-800"><?= $pastCount; ?></p>
                     </div>
                 </div>
                 <p class="text-blue-700 font-bold flex items-center">

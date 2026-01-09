@@ -393,4 +393,10 @@ class Ticket
         return $query->fetchColumn();
     }
 
+    public static function getCountTicket() {
+        $connect = Database::getInstance()->getConnect();
+        $query = $connect -> query('SELECT COUNT(*) from tickets');
+        return $query->fetchColumn();
+    }
+
 }
