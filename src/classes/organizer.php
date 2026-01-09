@@ -298,5 +298,7 @@ class Organizer extends User
         return $revenue->fetchColumn();
     }
 
+    
+
 
 }

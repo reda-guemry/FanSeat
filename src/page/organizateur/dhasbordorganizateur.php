@@ -212,39 +212,6 @@ include __DIR__ . '/../../includes/header.php';
                 </p>
             </div>
         </div>
-
-        <!-- Quick Actions -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-            <a href="/fan-seat/src/page/organizateur/create-match.php"
-                class="card-hover gradient-shimmer rounded-3xl p-8 text-white shadow-2xl animate-fade-in-up"
-                style="animation-delay: 0.5s">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-2xl font-black">Créer un Match</h3>
-                    <i class="fas fa-plus-circle text-5xl opacity-30"></i>
-                </div>
-                <p class="text-purple-100 mb-6">Organisez un nouveau événement sportif</p>
-                <div class="flex items-center text-sm font-semibold">
-                    <span>Commencer</span>
-                    <i class="fas fa-arrow-right ml-2"></i>
-                </div>
-            </a>
-
-            <a href="/fan-seat/src/page/organizateur/allmatch.php"
-                class="card-hover bg-gradient-to-br from-pink-600 to-rose-700 rounded-3xl p-8 text-white shadow-2xl animate-fade-in-up"
-                style="animation-delay: 0.6s">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-2xl font-black">Mes Matchs</h3>
-                    <i class="fas fa-list text-5xl opacity-30"></i>
-                </div>
-                <p class="text-pink-100 mb-6">Gérez tous vos événements créés</p>
-                <div class="flex items-center text-sm font-semibold">
-                    <span>Voir tout</span>
-                    <i class="fas fa-arrow-right ml-2"></i>
-                </div>
-            </a>
-
-        </div>
-
         <!-- Matches Lists -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 

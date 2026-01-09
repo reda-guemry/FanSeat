@@ -159,51 +159,6 @@ include __DIR__ . '/../../includes/header.php';
             </div>
         </div>
 
-        <!-- Navigation Rapide -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <a href="/sports-ticketing/admin/users.php"
-                class="card-smooth gradient-purple gradient-purple-hover rounded-2xl p-6 text-white shadow-lg transform transition-all animate-fade-in-up"
-                style="animation-delay: 0.5s">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-xl text-purple-600 font-bold">Gérer les Utilisateurs</h3>
-                    <i class="fas fa-users-cog text-3xl"></i>
-                </div>
-                <p class="text-purple-600 mb-4">Activer, désactiver et gérer tous les comptes utilisateurs</p>
-                <div class="flex items-center text-sm">
-                    <span class="text-purple-600 ">Accéder</span>
-                    <i class="fas fa-arrow-right ml-2"></i>
-                </div>
-            </a>
-
-            <a href="/sports-ticketing/admin/matches.php"
-                class="card-smooth gradient-purple gradient-purple-hover rounded-2xl p-6 text-white shadow-lg transform transition-all animate-fade-in-up"
-                style="animation-delay: 0.6s">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-purple-600 text-xl font-bold">Valider les Matchs</h3>
-                    <i class="fas fa-check-circle text-3xl"></i>
-                </div>
-                <p class="text-purple-600  mb-4">Approuver ou refuser les demandes d'événements</p>
-                <div class="flex items-center text-sm">
-                    <span class="text-purple-600 ">Accéder</span>
-                    <i class="fas fa-arrow-right ml-2"></i>
-                </div>
-            </a>
-
-            <a href="/sports-ticketing/admin/statistics.php"
-                class="card-smooth gradient-purple gradient-purple-hover rounded-2xl p-6 text-white shadow-lg transform transition-all animate-fade-in-up"
-                style="animation-delay: 0.7s">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-xl text-purple-600 font-bold">Statistiques Avancées</h3>
-                    <i class="fas fa-chart-line text-3xl"></i>
-                </div>
-                <p class="text-purple-600  mb-4">Consultez les rapports et analyses détaillées</p>
-                <div class="flex items-center text-sm">
-                    <span class="text-purple-600 ">Accéder</span>
-                    <i class="fas fa-arrow-right ml-2"></i>
-                </div>
-            </a>
-        </div>
-
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <!-- Matchs en Attente -->
             <div class="bg-white rounded-2xl shadow-lg p-6 animate-slide-in-right" style="animation-delay: 0.8s">
@@ -338,45 +293,6 @@ include __DIR__ . '/../../includes/header.php';
 
 
 
-<!-- Tickets Vendus Chart -->
-<section class="py-12 bg-white">
-    <div class="container mx-auto px-4">
-        <div class="bg-linear-to-r from-purple-700 to-purple-900 rounded-2xl shadow-2xl p-8 text-white">
-            <h2 class="text-3xl font-bold mb-6">
-                <i class="fas fa-ticket-alt mr-3"></i>
-                Aperçu des Ventes
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-xl p-6">
-                    <p class="text-purple-600 mb-2">Billets Vendus</p>
-                    <h3 class="text-4xl font-bold"><?php //echo $stats['total_tickets']; ?></h3>
-                    <p class="text-sm text-purple-500 mt-2">
-                        <i class="fas fa-arrow-up mr-1"></i> Total
-                    </p>
-                </div>
-                <div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-xl p-6">
-                    <p class="text-purple-600 mb-2">Revenus</p>
-                    <h3 class="text-4xl font-bold"><?php //echo number_format($stats['total_revenue'], 2); ?> MAD</h3>
-                    <p class="text-sm text-purple-500 mt-2">
-                        <i class="fas fa-coins mr-1"></i> Cumulé
-                    </p>
-                </div>
-                <div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-xl p-6">
-                    <p class="text-purple-600 mb-2">Taux de Remplissage</p>
-                    <h3 class="text-4xl font-bold">
-                        <?php
-                        //$total_capacity = $stats['total_matches'] * 2000; // Assuming avg 2000 seats
-                        //$fill_rate = $total_capacity > 0 ? ($stats['total_tickets'] / $total_capacity * 100) : 0;
-                        //echo number_format($fill_rate, 1);
-                        ?>%
-                    </h3>
-                    <p class="text-sm text-purple-500 mt-2">
-                        <i class="fas fa-chart-pie mr-1"></i> Moyen
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+
 
 <?php include __DIR__ . '/../../includes/footer.php'; ?>
